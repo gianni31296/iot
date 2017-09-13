@@ -33,7 +33,17 @@ $conn=new mysqli($host, $user, $pwd, $db);
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <script src='js/jquery-3.2.1.min.js'></script>
 	<script type="text/javascript">
+		$("document").ready(function(){
+			$("input").change(function(){
+				if($(this).val()=="" && $(this).attr("required")="required") alert("REQUIRED");
+			});
+			
+		});
+	
+	
+	
 		seconds = 5;
 
 		function updateTimer(divId)
@@ -200,6 +210,18 @@ desired effect
 	<div class="content">
 		
 		<?php
+		    $message="";
+			if(isset($_POST["modificacliente"])){
+				$stmt=$conn->prepare("update clienti set nomeCliente=? where codCliente=?" );
+				$nome=filter_input(INPUT_POST,"nome");
+				$cod=filter_input(INPUT_GET,"cod");
+				//echo $nome."    ".$cod."...";
+				
+				$stmt->bind_param("sd",$nome,$cod);
+				$stmt->execute();
+				$message= "CLIENTE MODIFICATO";
+			}
+		
 			$cod=filter_input(INPUT_GET,"cod");
 			$stmt=$conn->query("SELECT nomeCliente, cognomeCliente, sessoCliente, indirizzoCliente, residenzaCliente, emailCliente, telefonoCliente FROM clienti WHERE codCliente=" . $cod);
 			$row = $stmt->fetch_assoc();
@@ -214,6 +236,7 @@ desired effect
             <!-- /.box-header -->
             <!-- form start -->
             <form class="form-horizontal" method="post">
+			  <input name=modificacliente type=hidden>
               <div class="box-body">
                 
 				<div class="form-group">
@@ -307,9 +330,7 @@ desired effect
 		<div class="alert alert-info alert-dismissible" style="background-color:#00993a !important">
 				<div class="alert alert-info alert-dismissible" style="background-color:#00993a !important">
 				<?php 
-				if ($conn->query($sql)==TRUE)
-					echo "<h4><i class=\"icon fa fa-check\"></i> I dati del cliente ".$nome . " " . $cognome." sono stati aggiornati con successo!</h4>";
-				else echo "Errore! Nessun cliente inserito<br>" . $conn->error; ?>
+				echo $message. " ".$conn->error."<br>";?>
 				Sarai reindirizzato alla pagina iniziale tra &nbsp;<element id="seconds">5</element>
 				<div id="foo" style="display: none;">
 				</div>
