@@ -208,7 +208,6 @@ desired effect
 				
 					<?php 
 						$sensore = filter_input(INPUT_GET,'sensore');
-
 						$inizio=0;
 						$num_righe=25;
 						$res=$conn->query("select  count(*) as cnt from sensori_tipi where cod_sensore_rt=".$conn->escape_string($sensore));
@@ -231,13 +230,13 @@ desired effect
 						 join rilevazioni on rilevazioni.sensoreR=sensori_tipi.cod_sensore_rt
 						 join tipi on tipi.cod_tipo=sensori_tipi.cod_tipo_rt 
 						 join sensori on sensori.codsensore=sensori_tipi.cod_sensore_rt
-						 
 						 where sensori.clienteS=?
 						 and rilevazioni.sensoreR= ".$sensore. "
-						 and sensori_tipi.cod_sensore_rt= ".$sensore. "
-						 ".($option==0 or $option==2 or $option==3? "and rilevazioni.stato!=0":"") ."
+						 and sensori_tipi.cod_sensore_rt= ".$sensore. " " . 
+						 ($option==0 or $option==2 or $option==3 ? "and rilevazioni.stato!=0" : "") ."
 						 order by codRilevazione
 						 limit ".(($num_righe*$inizio)*$num_colonne).",".($num_colonne*$num_righe));
+						echo $conn->error;
 						$stmt->bind_param("d",$_SESSION["login"]);
 						$stmt->execute();
 						$stmt->store_result();
