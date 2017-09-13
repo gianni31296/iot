@@ -1,0 +1,43 @@
+<?php
+session_start();
+require 'dbconnect.php';
+
+
+$connessione=new mysqli($host, $user, $pwd, $db);
+
+// Check connection
+if ($connessione->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$esito = 0;
+$email = filter_input(INPUT_POST,"user");
+$psw = filter_input(INPUT_POST,"psw");
+$tipo = filter_input(INPUT_POST,"tipo");
+$psw_inserita = md5($psw) ;
+
+if($tipo=="c"){
+	$stmt = $connessione->prepare("SELECT codCliente, nomeCliente, cognomeCliente, sessoCliente FROM clienti where emailCliente=? and passwordCliente=?");
+} else {
+	$stmt = $connessione->prepare("SELECT codTP, nomeTP, cognomeTP, clienteTP, sessoTP FROM terzeparti where emailTP=? and passwordTP=?");
+}
+$stmt->bind_param("ss", $email, $psw_inserita);
+$stmt->execute();
+if ($tipo=="c") $stmt->bind_result($codUtente,$nomeUtente, $cognomeUtente,$sesso);
+	else  $stmt->bind_result($codUtente,$nomeUtente, $cognomeUtente, $cliente_rel, $sesso);
+if($stmt->fetch()){
+	$_SESSION["login"]=$codUtente;
+	$_SESSION["login_nome"]=$nomeUtente;
+    $_SESSION["login_cognome"]=$cognomeUtente;
+	$_SESSION["tipo_utente"]=$tipo;
+	$_SESSION["sesso"]=$sesso;
+	if ($tipo=="t") $_SESSION["cliente_rel"]=$cliente_rel;
+	unset($_SESSION["errore"]);
+	header("Location: utente.php");
+}
+else{
+	$_SESSION["errore"]="Email e/o password non corretti!";
+    header("Location: ../");
+}
+
+?>
