@@ -34,15 +34,7 @@ $conn=new mysqli($host, $user, $pwd, $db);
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 	
-	<script>
-	function cancella(cod,nome,cognome) {
-	  var domanda = confirm("Sei sicuro di voler cancellare il cliente e i relativi sensori?");
-	  if (domanda === true) {
-		loc = "<?php echo $_SESSION['doc']; ?>" + "?cod=" + cod + "&nome=" + nome + "&cognome=" + cognome;
-		window.location.href = loc;
-	  }
-	}
-	</script>
+	
 						
   </head>
 <!--

@@ -222,8 +222,8 @@ desired effect
 					if ($conn->query($sql)==TRUE){
 						unset($_SESSION['fatto']);
 						echo "<h4><i class=\"icon fa fa-check\"></i> L'autorizzazione alla terza parte ".$nome . " " . $cognome." è stata concessa!</h4>";
-					}else echo "Errore! Nessuna terza parte autorizzata<br>" . $conn->error;
-				} ?>
+					}else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Nessuna terza parte autorizzata" . $conn->error . ".</h4><br>";
+				} else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Operazione già effettuata.</h4><br>"; ?>
 				Sarai reindirizzato alla pagina iniziale tra &nbsp;<element id="seconds">5</element>
 				<div id="foo" style="display: none;">
 				</div>

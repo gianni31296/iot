@@ -35,17 +35,7 @@ $conn=new mysqli($host, $user, $pwd, $db);
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <script src='js/jquery-3.2.1.min.js'></script>
 	<script type="text/javascript">
-		$("document").ready(function(){
-			$("input").change(function(){
-				if($(this).val()=="" && $(this).attr("required")="required") alert("REQUIRED");
-			});
-			
-		});
-	
-	
-	
 		seconds = 5;
-
 		function updateTimer(divId)
 		{
 			elem = document.getElementById(divId);
@@ -211,18 +201,25 @@ desired effect
 		
 		<?php
 		    $message="";
+			$cod=filter_input(INPUT_GET,"cod");
 			if(isset($_POST["modificacliente"])){
-				$stmt=$conn->prepare("update clienti set nomeCliente=? where codCliente=?" );
+				$stmt=$conn->prepare("update clienti set nomeCliente=?, cognomeCliente=?, sessoCliente=?, indirizzoCliente=?, residenzaCliente=?, telefonoCliente=?, emailCliente=? where codCliente=?" );
 				$nome=filter_input(INPUT_POST,"nome");
-				$cod=filter_input(INPUT_GET,"cod");
+				$cognome=filter_input(INPUT_POST,"cognome");
+				$sesso=filter_input(INPUT_POST,"sesso");
+				$indirizzo=filter_input(INPUT_POST,"indirizzo");
+				$residenza=filter_input(INPUT_POST,"residenza");
+				$telefono=filter_input(INPUT_POST,"telefono");
+				$email=filter_input(INPUT_POST,"email");
 				//echo $nome."    ".$cod."...";
 				
-				$stmt->bind_param("sd",$nome,$cod);
+				$stmt->bind_param("sssssssd",$nome,$cognome,$sesso,$indirizzo,$residenza,$telefono,$email,$cod);
 				$stmt->execute();
-				$message= "CLIENTE MODIFICATO";
+				$message="<div class=\"alert alert-info alert-dismissible\" style=\"background-color:#00993a !important; border-color:#00993a !important\">
+						  Il cliente è stato modificato correttamente!" . $conn->error . "<br>
+						  Sarai reindirizzato alla pagina iniziale tra &nbsp;";
 			}
 		
-			$cod=filter_input(INPUT_GET,"cod");
 			$stmt=$conn->query("SELECT nomeCliente, cognomeCliente, sessoCliente, indirizzoCliente, residenzaCliente, emailCliente, telefonoCliente FROM clienti WHERE codCliente=" . $cod);
 			$row = $stmt->fetch_assoc();
 		?>
@@ -323,21 +320,16 @@ desired effect
 
               </div>
               <!-- /.box-footer -->
+			</div>
             </form>
           </div>
 		
 		
-		<div class="alert alert-info alert-dismissible" style="background-color:#00993a !important">
-				<div class="alert alert-info alert-dismissible" style="background-color:#00993a !important">
-				<?php 
-				echo $message. " ".$conn->error."<br>";?>
-				Sarai reindirizzato alla pagina iniziale tra &nbsp;<element id="seconds">5</element>
-				<div id="foo" style="display: none;">
-				</div>
-				</div>
-				<div id="foo" style="display: none;">
-				</div>
-		</div>
+		<?php echo $message; if(isset($_POST["modificacliente"])) echo "<element id=\"seconds\">5</element>
+		  <div id=\"foo\" style=\"display: none;\">
+		  </div>
+		  </div> <META HTTP-EQUIV=REFRESH CONTENT=\"5; URL=azienda.php\"> ";?>
+			
 		</section>
 	</div>
 	

@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-
 ?>
 
 <html style="height: auto; min-height: 100%;"><head>
@@ -31,6 +30,19 @@ session_start();
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <script>
+	function myFunction() {
+		var txt;
+		var person = prompt("Please enter your name:", "Harry Potter");
+		if (person == null || person == "") {
+			myFunction();
+		} else {
+			txt = "Hello " + person + "! How are you today?";
+		}
+		document.f.nascosto.value = person;
+		document.forms["f"].submit();
+	}
+  </script>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -52,7 +64,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
+<body class="skin-blue sidebar-mini" style="height: auto; min-height: 100%;" <?php if ($_SESSION['accesso']==1) echo "onload=\"myFunction()\"";?>>
 <div class="wrapper" style="height: auto; min-height: 100%;">
 
   <!-- Main Header -->
@@ -202,6 +214,11 @@ desired effect
 	<!-- Main content -->
 	<div class="content">
 		
+		<form method="post" id="f" action="">
+			<input type="hidden" id="nascosto" name="nascosto" value="">
+		</form>
+		
+		<?php print_r ($_POST); echo "<br>variabile:" . $_POST["nascosto"];?>		
 		<section class="content">
 		
 			<h2><b>Rilevazioni</b></h2>
@@ -381,7 +398,6 @@ desired effect
     <!-- Default to the left -->
     <strong>Copyright © 2017 <font color="#0087ff">Iot Inc.</font></strong> &nbsp;All rights reserved.
   </footer>
-
 </div>
 <!-- ./wrapper -->
 

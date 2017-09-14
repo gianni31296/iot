@@ -204,13 +204,13 @@ desired effect
 			
 			<div class="alert alert-info alert-dismissible" style="border-color:#00993a !important; background-color:#00993a !important;">
 				<?php 
-				if ($_SESSION['fatto']==1) {
+				if (isset($_SESSION['fatto'])) {
 					$sql = "DELETE FROM sensori WHERE codSensore=" . $cod;					
 					if ($conn->query($sql)==TRUE){
 						unset($_SESSION['fatto']);
 						echo "<h4><i class=\"icon fa fa-check\"></i> Il sensore con codice ".$cod . " è stato eliminato con successo!</h4>";
-					}else echo "Errore! Nessun sensore eliminato<br>" . $conn->error;
-				} ?>
+					}else echo "<h4><i class=\"icon fa fa-times\">Errore! Nessun sensore eliminato" . $conn->error . ".</h4><br>";
+				} else echo "<h4><i class=\"icon fa fa-times\">Errore! Operazione già effettuata.</h4><br>"; ?>
 				Sarai reindirizzato alla pagina iniziale tra &nbsp;<element id="seconds">5</element>
 				<div id="foo" style="display: none;">
 				</div>
