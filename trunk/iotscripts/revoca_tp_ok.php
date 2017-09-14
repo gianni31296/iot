@@ -211,13 +211,13 @@ desired effect
 			
 			<div class="alert alert-info alert-dismissible">
 				<?php 
-				if ($_SESSION['fatto']==1) {
+				if (isset($_SESSION['fatto'])) {
 					$sql = "DELETE FROM terzeparti WHERE codTP=" . $cod;
 					if ($conn->query($sql)==TRUE){
 						unset($_SESSION['fatto']);
 						echo "<h4><i class=\"icon fa fa-check\"></i> L'autorizzazione della terza parte ".$nome . " " . $cognome." è stata revocata con successo!</h4>";
-					}else echo "Errore! Nessuna autorizzazione revocata<br>" . $conn->error;
-				} ?>
+					}else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Nessuna autorizzazione revocata" . $conn->error . ".</h4><br>";
+				} else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Operazione già effettuata.</h4><br>"; ?>
 				Sarai reindirizzato alla pagina iniziale tra &nbsp;<element id="seconds">5</element>
 				<div id="foo" style="display: none;">
 				</div>

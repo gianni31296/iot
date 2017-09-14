@@ -213,13 +213,13 @@ desired effect
 			<div class="alert alert-info alert-dismissible" style="background-color:#00993a !important">
 				
 				<?php 
-				if ($_SESSION['fatto']==1) {
+				if (isset($_SESSION['fatto'])) {
 					$sql = "INSERT INTO clienti (nomeCliente,cognomeCliente,sessoCliente,indirizzoCliente,residenzaCliente,emailCliente,telefonoCliente,passwordCliente) VALUES ('" . $nome . "','" . $cognome . "','" . $sesso . "','" . $indirizzo . "','" . $residenza . "','" . $email . "','" . $telefono . "','" . $password . "')";
 					if ($conn->query($sql)==TRUE){
 						unset($_SESSION['fatto']);
 						echo "<h4><i class=\"icon fa fa-check\"></i> Il cliente ".$nome . " " . $cognome." è stato inserito con successo!</h4>";
-					}else echo "Errore! Nessun cliente inserito<br>" . $conn->error;
-				} ?>
+					}else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Nessun cliente inserito" . $conn->error . ".</h4><br>";
+				} else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Operazione già effettuata.</h4><br>"; ?>
 				Sarai reindirizzato alla pagina iniziale tra &nbsp;<element id="seconds">5</element>
 				<div id="foo" style="display: none;">
 				</div>

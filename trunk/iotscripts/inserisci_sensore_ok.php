@@ -206,14 +206,14 @@ desired effect
 			<div class="alert alert-info alert-dismissible" style="background-color:#00993a !important; border-color:#00993a !important">
 				
 				<?php 
-				if ($_SESSION['fatto']==1) {
+				if (isset($_SESSION['fatto'])) {
 					$sql = "INSERT INTO sensori (marca,clienteS) VALUES ('" . $marca . "','" . $cod . "')";
 					if ($conn->query($sql)==TRUE){
 						unset($_SESSION['fatto']);
 						$cod_s = $conn->insert_id;
-						echo "<h4><i class=\"icon fa fa-check\"></i> Il sensore è stato inserito correttamente con codice " . $cod_s . "</h4>";
-					}else echo "Errore! Nessun sensore inserito<br>" . $conn->error;
-				} ?>
+						echo "<h4><i class=\"icon fa fa-check\"></i> Il sensore è stato inserito correttamente con codice " . $cod_s . ".</h4>";
+					}else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Nessun sensore inserito." . $conn->error . "</h4><br>";
+				} else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Operazione già effettuata.</h4><br>"; ?>
 				Sarai reindirizzato alla pagina iniziale tra &nbsp;<element id="seconds">5</element>
 				<div id="foo" style="display: none;">
 				</div>
