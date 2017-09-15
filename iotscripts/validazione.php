@@ -37,7 +37,7 @@ if($stmt->fetch()){
 	header("Location: utente.php");
 }
 else{
-	$_SESSION["errore"]="Email e/o password non corretti!";
+	$_SESSION["errore"]="Dati inseriti non corretti!";
     header("Location: ../");
 }
 

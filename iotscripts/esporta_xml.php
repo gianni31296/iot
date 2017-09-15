@@ -35,7 +35,6 @@
 	 join tipi on tipi.cod_tipo=sensori_tipi.cod_tipo_rt 
 	 join sensori on sensori.codsensore=sensori_tipi.cod_sensore_rt
 	 left join errori on rilevazioni.erroreR=errori.codErrore
-	 
 	 where sensori.clienteS= ? 
 	 and rilevazioni.sensoreR= ".$sensore. "
 	 and sensori_tipi.cod_sensore_rt= ".$sensore. "
@@ -70,7 +69,7 @@
 			foreach($cols as $k=>$v){
 
 				$num=0;
-			$ril = $xml->addChild('rilevazioni');
+				$ril = $xml->addChild('rilevazione');
 				foreach($headers as $header){
 					
 					if($num==0){

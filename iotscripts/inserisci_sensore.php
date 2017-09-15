@@ -199,7 +199,7 @@ desired effect
                   <label for="marcas" class="col-sm-2 control-label">Marca</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="marcas" name="marca" placeholder="Es. Sony">
+                    <input type="text" class="form-control" id="marcas" name="marca" placeholder="Es. Sony" required>
                   </div>
                 </div>
 				
@@ -207,8 +207,8 @@ desired effect
 						
 				<div class="form-group">
                   <label for="cli" class="col-sm-2 control-label">Cliente</label>
-                  <div class="col-sm-10">
-				  <select class="form-control">
+                  <div class="col-sm-10"> 
+				  <select class="form-control" required>
                     <?php 
 					$stmt=$conn->query("SELECT codCliente, nomeCliente, cognomeCliente FROM clienti");
 					while($row = $stmt->fetch_assoc()){
