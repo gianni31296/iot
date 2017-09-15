@@ -85,7 +85,7 @@ session_start();
 					  <label for="cliente" class="col-sm-2 control-label"></label>
 
 					  <div class="col-sm-10">
-						<input type="radio" value="c" name="tipo" id="cliente">Cliente
+						<input type="radio" value="c" name="tipo" id="cliente" required>Cliente
 					  </div>
 				  </div>
 				  <div class="radio">

@@ -196,7 +196,7 @@ desired effect
   <div class="content-wrapper" style="min-height: 754px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Visualizza rilevazioni</h1>
+      <h1><?php if($option==0) echo "Visualizza rilevazioni"; elseif($option==1) echo "Stato rilevazioni"; elseif($option==2) echo "Esporta rilevazioni in XML"; else echo "Invia rilevazioni per mail";?></h1>
     </section>
 	<!-- Main content -->
 	<div class="content">

@@ -1,6 +1,9 @@
 <?php
 
 session_start();
+if($_SESSION['accesso']==1){
+	header("location: primo_accesso.php");
+}
 ?>
 
 <html style="height: auto; min-height: 100%;"><head>
@@ -30,19 +33,6 @@ session_start();
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <script>
-	function myFunction() {
-		var txt;
-		var person = prompt("Please enter your name:", "Harry Potter");
-		if (person == null || person == "") {
-			myFunction();
-		} else {
-			txt = "Hello " + person + "! How are you today?";
-		}
-		document.f.nascosto.value = person;
-		document.forms["f"].submit();
-	}
-  </script>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -64,7 +54,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="skin-blue sidebar-mini" style="height: auto; min-height: 100%;" <?php if ($_SESSION['accesso']==1) echo "onload=\"myFunction()\"";?>>
+<body class="skin-blue sidebar-mini" style="height: auto; min-height: 100%;">
 <div class="wrapper" style="height: auto; min-height: 100%;">
 
   <!-- Main Header -->
@@ -213,12 +203,7 @@ desired effect
     </section>
 	<!-- Main content -->
 	<div class="content">
-		
-		<form method="post" id="f" action="">
-			<input type="hidden" id="nascosto" name="nascosto" value="">
-		</form>
-		
-		<?php print_r ($_POST); echo "<br>variabile:" . $_POST["nascosto"];?>		
+
 		<section class="content">
 		
 			<h2><b>Rilevazioni</b></h2>

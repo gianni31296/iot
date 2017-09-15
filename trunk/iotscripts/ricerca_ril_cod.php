@@ -220,7 +220,7 @@ desired effect
 						$num_colonne=$data_num_colonne["cnt"];
 						
 						$stmt = $conn->prepare("
-						select codRilevazione,
+						select codRilevazione,rilevazioni.erroreR as errore,
 						 if(tipo_dato='int' or tipo_dato='double',
 							convert(substr(stringa,inizio,lunghezza),decimal),
 							if(tipo_dato='date',
@@ -235,6 +235,7 @@ desired effect
 						 join rilevazioni on rilevazioni.sensoreR=sensori_tipi.cod_sensore_rt
 						 join tipi on tipi.cod_tipo=sensori_tipi.cod_tipo_rt 
 						 join sensori on sensori.codsensore=sensori_tipi.cod_sensore_rt
+						 left join errori on rilevazioni.erroreR=errori.codErrore
 						 where sensori.clienteS=?
 						 and codRilevazione=".$cod."
 						 and sensori_tipi.cod_sensore_rt=rilevazioni.sensoreR");
@@ -242,7 +243,7 @@ desired effect
 							$stmt->bind_param("d",$_SESSION["login"]);
 							$stmt->execute();
 							$stmt->store_result();
-							$stmt->bind_result($cod,$a, $b,$c,$d);
+							$stmt->bind_result($cod, $e, $a, $b, $c, $d);
 							$i=0;
 							$numero_dati=$stmt->num_rows;
 							//$cols= Array( $numero_dati);
@@ -251,6 +252,7 @@ desired effect
 							$conteggio_righe=0;
 							$headers=Array();
 							$cols=Array();
+							$xml = new SimpleXMLElement('<xml/>');
 							while($stmt->fetch() && $conteggio_righe<$max_righe){
 
 								$cols[$cod][$b]=$a;
@@ -266,13 +268,19 @@ desired effect
 								$headers["stato"]="stato";						
 								echo "<tr role=\"row\" class=\"odd\">";
 								echo "<th>";
-									echo "Codice";
+									echo "codice";
 									echo "</th>";
 								
 								foreach($headers as $header){
-									echo "<th>";
+									if ($header=='stato'){
+										echo "<th><center>";
 									echo $header;
-									echo "</th>";
+									echo "</center></th>";
+									}else {
+										echo "<th>";
+										echo $header;
+										echo "</th>";
+									}
 								}
 							echo "</tr>";
 							
@@ -280,9 +288,10 @@ desired effect
 
 								echo "<tr role=\"row\" class=\"odd\">";
 								$num=0;
-							
+								$ril = $xml->addChild('rilevazione');
 								foreach($headers as $header){
 									if($num==0){
+									$ril->addChild('codice', $codici[$k]);
 									echo "<td>";
 									echo $codici[$k];
 									echo "</td>";
@@ -290,7 +299,7 @@ desired effect
 									}
 									echo "<td>";
 									if ($header=='errore' AND $cols[$k]['errore']==0) echo "-";
-									else if($header=='errore' AND $cols[$k]['errore']>0) echo "<a href=\"errore.php?cod=".$codici[$k]."\">".$cols[$k][$header]."</a>";
+									else if($header=='errore' AND $cols[$k]['errore']>0){$ril->addChild('errore', $e[$k]); echo "<a href=\"errore.php?cod=".$codici[$k]."\">".$cols[$k][$header]."</a>";}
 									if ($header=='stato' AND $option==1) {
 											$statocheck="";
 											//print_r( $cols[$k]);
@@ -298,7 +307,7 @@ desired effect
 											echo "<center><input type=\"checkbox\" class=\"on-off-switch\" id=\"switch".$k."\" name=\"switch".$k."\" cod_number=12 $statocheck></center>"; 
 									}
 									else if ($header=='stato' AND $option==0) { if ($cols[$k]['stato']==0) echo "nascosta"; else echo "visibile"; }
-									else echo $cols[$k][$header] ;
+									else if ($header!='errore'){$ril->addChild($header, $cols[$k][$header]); echo $cols[$k][$header] ;}
 									echo "</td>";
 									
 								}
@@ -320,11 +329,26 @@ desired effect
 					?>
 									
 				</tbody>
-            </table><?php //if($ris==1){ echo "(Stato rilevazione: 0 = nascosta  -  1 = visibile)";} else {echo "<META HTTP-EQUIV=REFRESH CONTENT=\"5; URL=utente.php\"";} ?>
+            </table>
+			
+			
+			<?php
+				if(file_exists("rilevazione_".$cod.".xml")) unlink("rilevazione_".$cod.".xml");
+				$f=fopen("rilevazione_".$cod.".xml","w");
+				fwrite($f,$xml->asXML());
+				fflush($f);
+				fclose($f);
+				
+				
+				
+			?>	
+			
 			</div></div></div>
             </div>
             <!-- /.box-body -->
-          </div>
+          </div><center><a class="btn btn-app" href="rilevazione_<?php echo $cod;?>.xml" download target=_blank style="color:black">
+                <i class="fa fa-save"></i> Esporta
+            </a></center>
 		  </section>
 	</div>	
   </div>

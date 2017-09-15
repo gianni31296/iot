@@ -197,7 +197,7 @@ desired effect
                   <label for="nomec" class="col-sm-2 control-label">Nome</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nomec" name="nome" placeholder="Es. Marco">
+                    <input type="text" class="form-control" id="nomec" name="nome" placeholder="Es. Marco" required>
                   </div>
                 </div>
 				
@@ -205,7 +205,7 @@ desired effect
                   <label for="cognomec" class="col-sm-2 control-label">Cognome</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="cognomec" name="cognome" placeholder="Es. Rossi">
+                    <input type="text" class="form-control" id="cognomec" name="cognome" placeholder="Es. Rossi" required>
                   </div>
                 </div>
                 
@@ -214,7 +214,7 @@ desired effect
 				  <div class="col-sm-10">
                   <div class="radio">
 							<div class="col-sm-2">
-							<input type="radio" value="m" name="sesso" id="sessom">Maschio&emsp;
+							<input type="radio" value="m" name="sesso" id="sessom" required>Maschio&emsp;
 							</div>
 							<div class="col-sm-2">
 							<input type="radio" value="f" name="sesso" id="sessof">Femmina
@@ -266,7 +266,7 @@ desired effect
 					  <div class="input-group-addon">
 					  <i class="fa fa-envelope"></i>
 					  </div>
-					  <input type="email" class="form-control" id="emailc" name="email" placeholder="Es. gio93@libero.it">                  
+					  <input type="email" class="form-control" id="emailc" name="email" placeholder="Es. gio93@libero.it" required>                  
 					</div>
                   </div>
 				</div>
@@ -278,7 +278,7 @@ desired effect
 					  <div class="input-group-addon">
 					  <i class="fa fa-lock"></i>
 					  </div>
-                      <input type="password" class="form-control" id="passwordc" name="password" placeholder="Inserisci la password del cliente">
+                      <input type="password" class="form-control" id="passwordc" name="password" placeholder="Inserisci la password del cliente" required>
 					</div>
 				 </div>
                 </div>
