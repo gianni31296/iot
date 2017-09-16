@@ -10,7 +10,7 @@
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 	}
-	
+	$no_ril=0;
 	$sensore = filter_input(INPUT_GET,'sensore');
 	/*$inizio=0;
 	$num_righe=25;
@@ -20,11 +20,11 @@
 */	
 	$stmt = $conn->prepare("
 	select codRilevazione,rilevazioni.erroreR as errore,
-	 if(tipo_dato='int' or tipo_dato='double',
+	 if(tipo_dato='intero' or tipo_dato='decimale',
 		convert(substr(stringa,inizio,lunghezza),decimal),
-		if(tipo_dato='date',
+		if(tipo_dato='data',
 			date_format(convert(substr(stringa,inizio,lunghezza),date),'%d/%m/%Y'),
-			if(tipo_dato='time',
+			if(tipo_dato='ora',
 				convert(substr(stringa,inizio,lunghezza),time),
 				substr(stringa,inizio,lunghezza)
 			)
@@ -50,50 +50,52 @@
 	//$cols= Array( $numero_dati);
 	$headers=Array();
 	
-	
-	$xml = new SimpleXMLElement('<xml/>');
+	if ($numero_dati>0){
+		$xml = new SimpleXMLElement('<xml/>');
 
-	while($stmt->fetch()){
-		$cols[$cod][$b]=$a;
-		$cols[$cod]["descrizione"]=$c;
-		$headers[$b]=$b;
-		$codici[$cod]=$cod;
-	}
-	
-	if(count($headers)>0){
-	
-	$headers["descrizione"]="descrizione";
+		while($stmt->fetch()){
+			$cols[$cod][$b]=$a;
+			$cols[$cod]["descrizione"]=$c;
+			$headers[$b]=$b;
+			$codici[$cod]=$cod;
+		}
 		
-		foreach($headers as $header){
+		if(count($headers)>0){
 		
-			foreach($cols as $k=>$v){
+		$headers["descrizione"]="descrizione";
+			
+			foreach($headers as $header){
+			
+				foreach($cols as $k=>$v){
 
-				$num=0;
-				$ril = $xml->addChild('rilevazione');
-				foreach($headers as $header){
-					
-					if($num==0){
-						$ril->addChild('codice', $codici[$k]);
-						$num++;
+					$num=0;
+					$ril = $xml->addChild('rilevazione');
+					foreach($headers as $header){
+						
+						if($num==0){
+							$ril->addChild('codice', $codici[$k]);
+							$num++;
+						}
+						if($header=='errore' AND $cols[$k]['errore']>0){
+							$ril->addChild('errore', $e[$k]);
+						} else {
+							$ril->addChild($header, $cols[$k][$header]);
+						}
+						
 					}
-					if($header=='errore' AND $cols[$k]['errore']>0){
-						$ril->addChild('errore', $e[$k]);
-					} else {
-						$ril->addChild($header, $cols[$k][$header]);
-					}
-					
 				}
 			}
-		}
-	} else echo "no";
-	
-//Header('Content-type: text/xml');
-//print($xml->asXML());
-if(file_exists("rilevazioni.xml")) unlink("rilevazioni.xml");
-$f=fopen("rilevazioni.xml","w");
-fwrite($f,$xml->asXML());
-fflush($f);
-fclose($f);
+		} else echo "no";
+	 
+		//Header('Content-type: text/xml');
+		//print($xml->asXML());
+		if(file_exists("rilevazioni_s". $sensore . ".xml")) unlink("rilevazioni_s". $sensore . ".xml");
+		$f=fopen("rilevazioni_s". $sensore . ".xml","w");
+		fwrite($f,$xml->asXML());
+		fflush($f);
+		fclose($f);
+		
+	} else $no_ril=1;	
 ?>
 
 <html style="height: auto; min-height: 100%;"><head>
@@ -292,7 +294,7 @@ desired effect
 		
 		<section class="content">
 			<center>
-                <?php if(file_exists("rilevazioni.xml")) echo 
+                <?php if(file_exists("rilevazioni_s". $sensore . ".xml")) echo 
 				'<div class="alert alert-success alert-dismissible">'.
 				'<font size="6"><i class="icon fa fa-check"></i>Il tuo file è pronto!</font>&emsp;&emsp;'.
 				'<a class="btn btn-app" href="rilevazioni.xml" download target=_blank style="color:black">'.
@@ -300,7 +302,7 @@ desired effect
 				'</a>'.
 				'</div>';
 				 else echo '<div class="alert alert-danger alert-dismissible">'.
-				 '<font size="6"><i class="icon fa fa-times"></i>Errore nella creazione del file!</font>'.
+				 '<font size="6"><i class="icon fa fa-times"></i>Errore nella creazione del file!</font>'. ($no_ril==1 ? '<br><font size="4">Non ci sono rilevazioni relative al sensore inserito</font>' : '') . 
 				 '</div>';
 				?>
               </center>

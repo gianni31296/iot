@@ -16,7 +16,7 @@ $stringhe=Array(
 
 	);
 
-for ($i=0;$i<1000;$i++){
+for ($i=0;$i<100;$i++){
 	$stringhe[]="00000000001:00000".date("YmdHis",strtotime("2017-01-01"."05.00 + ".$i. " hour"))."0".rand(20,40).":lettura ok sensore parcheggio";
 	
 }
