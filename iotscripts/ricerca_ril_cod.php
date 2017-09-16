@@ -306,7 +306,7 @@ desired effect
 											if ($cols[$k]['stato']==1) $statocheck="checked";
 											echo "<center><input type=\"checkbox\" class=\"on-off-switch\" id=\"switch".$k."\" name=\"switch".$k."\" cod_number=12 $statocheck></center>"; 
 									}
-									else if ($header=='stato' AND $option==0) { if ($cols[$k]['stato']==0) echo "nascosta"; else echo "visibile"; }
+									else if ($header=='stato' AND ($option==0 OR $option==2 OR $option==3)) { if ($cols[$k]['stato']==0) echo "<center>nascosta</center>"; else echo "<center>visibile</center>"; }
 									else if ($header!='errore'){$ril->addChild($header, $cols[$k][$header]); echo $cols[$k][$header] ;}
 									echo "</td>";
 									
