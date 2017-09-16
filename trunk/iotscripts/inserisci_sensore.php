@@ -3,7 +3,7 @@
 session_start();
 require 'dbconnect.php';
 $conn=new mysqli($host, $user, $pwd, $db);
-
+$num_campi=$_GET['campi'];
 ?>
 
 <html style="height: auto; min-height: 100%;"><head>
@@ -163,7 +163,7 @@ desired effect
 				  </span>
 			  </a>
 			  <ul class="treeview-menu" style="display: none;">
-				<li><a href="inserisci_sensore.php">Inserisci nuovo sensore</a></li>
+				<li><a href="inserisci_sensore.php?campi=1">Inserisci nuovo sensore</a></li>
 				<li><a href="elimina_sensore.php">Elimina sensore</a></li>
 				<li><a href="inserisci_tipo.php">Inserisci nuovo tipo di sensore</a></li>
 			  </ul>
@@ -207,55 +207,61 @@ desired effect
 				<div class="form-group">
                   <label for="cli" class="col-sm-2 control-label">Cliente</label>
                   <div class="col-sm-10"> 
-				  <select class="form-control" required>
+				  <select class="form-control" name="cliente" required>
                     <?php 
 					$stmt=$conn->query("SELECT codCliente, nomeCliente, cognomeCliente FROM clienti");
 					while($row = $stmt->fetch_assoc()){
-							echo "<option>" . $row['codCliente'] . " - " . $row['nomeCliente'] . " " . $row['cognomeCliente'] . "</option>";
+							echo "<option value=" . $row['codCliente'] . ">" . $row['codCliente'] . " - " . $row['nomeCliente'] . " " . $row['cognomeCliente'] . "</option>";
 						}
 					?>
                   </select>
 				  </div>
                 </div>
 				
-				<h4>Tipo di sensore - Formato stringa</h4>
-				
-				<div class="form-group">
-                  <label for="marcas" class="col-sm-2 control-label">Lunghezza</label>
+				<h4>Tipo di sensore - Formato stringa - (Inserire i campi in ordine di posizione nella stringa)</h4>
+				<?php
+				for ($i=1; $i<=$num_campi; $i++){
+					echo "<h5>Campo" . $i . "</h5>";
+					echo "
+						<div class=\"form-group\">
+						  <label for=\"marcas\" class=\"col-sm-2 control-label\">Lunghezza</label>
 
-                  <div class="col-sm-10">
-                    <input type="number" class="form-control" id="lunghezzas" name="lunghezza" placeholder="Es. 5" required>
-                  </div>
-                </div>
-				
-				<div class="form-group">
-                  <label for="marcas" class="col-sm-2 control-label">Descrizione tipo</label>
+						  <div class=\"col-sm-10\">
+							<input type=\"number\" class=\"form-control\" id=\"lunghezzat\" name=\"lunghezza".$i."\" placeholder=\"Es. 5\" required>
+						  </div>
+						</div>
+						
+						<div class=\"form-group\">
+						  <label for=\"marcas\" class=\"col-sm-2 control-label\">Descrizione tipo</label>
 
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="lunghezzas" name="lunghezza" placeholder="Es. temperatura, errore, ora, ecc." required>
-                  </div>
-                </div>
+						  <div class=\"col-sm-10\">
+							<input type=\"text\" class=\"form-control\" id=\"descrizionet\" name=\"descrizione".$i."\" placeholder=\"Es. temperatura, errore, ora, ecc.\" required>
+						  </div>
+						</div>
+						
+						<div class=\"form-group\">
+						  <label for=\"cli\" class=\"col-sm-2 control-label\">Tipo di dato</label>
+						  <div class=\"col-sm-10\"> 
+						  <select class=\"form-control\" name=\"tipo".$i."\" required>";
+							$stmt=$conn->query("SELECT cod_tipo, tipo_dato FROM tipi");
+							while($row = $stmt->fetch_assoc()){
+								echo "<option value=".$row['cod_tipo'].">" . $row['tipo_dato'] . "</option>";
+							}
+						echo "</select></div></div>";
+				}
+				if ($num_campi>1) echo "<span style=\"float:left;\"><a href=\"inserisci_sensore.php?campi=" . ($num_campi - 1) . "\">Rimuovi un campo</a></span>";
+				echo "<p align=\"right\"><a href=\"inserisci_sensore.php?campi=" . ($num_campi + 1) . "\">Aggiungi un campo</a></p>";
+				?>
 				
-				<div class="form-group">
-                  <label for="cli" class="col-sm-2 control-label">Tipo di dato</label>
-                  <div class="col-sm-10"> 
-				  <select class="form-control" required>
-                    <?php 
-					$stmt=$conn->query("SELECT tipo_dato FROM tipi");
-					while($row = $stmt->fetch_assoc()){
-							echo "<option>" . $row['tipo_dato'] . "</option>";
-						}
-					?>
-                  </select>
-				  </div>
-                </div>
 			  <!-- /.box-body -->
+			  <span>
               <div class="box-footer">
 				<button type="reset" class="btn btn-default">Cancella</button>
-				<?php $_SESSION['fatto']=1; ?>
+				<?php $_SESSION['fatto']=1; 
+				$_SESSION['campi']=$num_campi;?>
                 <button type="submit" class="btn btn-info pull-right" style="border-color:#00993a; background-color:#00993a">Inserisci</button>
 
-              </div>
+              </div></span>
               <!-- /.box-footer -->
             </form>
           </div>
