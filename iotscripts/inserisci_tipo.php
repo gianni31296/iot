@@ -179,7 +179,7 @@ desired effect
   <div class="content-wrapper" style="min-height: 754px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-	  <h1>Inserisci nuovo sensore</h1>
+	  <h1>Inserisci nuovo tipo di sensore</h1>
     </section>
 	<!-- Main content -->
 	<div class="content">
@@ -188,7 +188,7 @@ desired effect
 		
 			<div class="box box-info" style="border-top-color:#00993a">
             <div class="box-header with-border">
-              <h3 class="box-title">Dati del sensore</h3>
+              <h3 class="box-title">Formato stringa</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
@@ -196,10 +196,18 @@ desired effect
               <div class="box-body">
                 
 				<div class="form-group">
-                  <label for="marcas" class="col-sm-2 control-label">Marca</label>
+                  <label for="marcas" class="col-sm-2 control-label">Lunghezza</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="marcas" name="marca" placeholder="Es. Sony" required>
+                    <input type="number" class="form-control" id="lunghezzas" name="lunghezza" placeholder="Es. 5" required>
+                  </div>
+                </div>
+				
+				<div class="form-group">
+                  <label for="marcas" class="col-sm-2 control-label">Nome tipo</label>
+
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" id="lunghezzas" name="lunghezza" placeholder="Es. 5" required>
                   </div>
                 </div>
 				

@@ -211,11 +211,11 @@ desired effect
 						
 						$stmt = $conn->prepare("
 						select codRilevazione,
-						 if(tipo_dato='int' or tipo_dato='double',
+						 if(tipo_dato='intero' or tipo_dato='decimale',
 							convert(substr(stringa,inizio,lunghezza),decimal),
-							if(tipo_dato='date',
+							if(tipo_dato='data',
 								date_format(convert(substr(stringa,inizio,lunghezza),date),'%d/%m/%Y'),
-								if(tipo_dato='time',
+								if(tipo_dato='ora',
 									convert(substr(stringa,inizio,lunghezza),time),
 									substr(stringa,inizio,lunghezza)
 								)

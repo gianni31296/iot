@@ -194,7 +194,6 @@ desired effect
             <!-- form start -->
             <form class="form-horizontal" action="inserisci_sensore_ok.php" method="post">
               <div class="box-body">
-                
 				<div class="form-group">
                   <label for="marcas" class="col-sm-2 control-label">Marca</label>
 
@@ -219,6 +218,37 @@ desired effect
 				  </div>
                 </div>
 				
+				<h4>Tipo di sensore - Formato stringa</h4>
+				
+				<div class="form-group">
+                  <label for="marcas" class="col-sm-2 control-label">Lunghezza</label>
+
+                  <div class="col-sm-10">
+                    <input type="number" class="form-control" id="lunghezzas" name="lunghezza" placeholder="Es. 5" required>
+                  </div>
+                </div>
+				
+				<div class="form-group">
+                  <label for="marcas" class="col-sm-2 control-label">Descrizione tipo</label>
+
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="lunghezzas" name="lunghezza" placeholder="Es. temperatura, errore, ora, ecc." required>
+                  </div>
+                </div>
+				
+				<div class="form-group">
+                  <label for="cli" class="col-sm-2 control-label">Tipo di dato</label>
+                  <div class="col-sm-10"> 
+				  <select class="form-control" required>
+                    <?php 
+					$stmt=$conn->query("SELECT tipo_dato FROM tipi");
+					while($row = $stmt->fetch_assoc()){
+							echo "<option>" . $row['tipo_dato'] . "</option>";
+						}
+					?>
+                  </select>
+				  </div>
+                </div>
 			  <!-- /.box-body -->
               <div class="box-footer">
 				<button type="reset" class="btn btn-default">Cancella</button>
