@@ -33,18 +33,6 @@ $num_campi=$_GET['campi'];
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <script type="text/javascript"> 
-	//Dichiaro la funzione 
-	function azione(variabile) { 
-	document.getElementById(variabile).style.display='';}
-</script>
- <script type="text/javascript"> 
-	//Dichiaro la funzione 
-	function azione2(variabile) { 
-	if(document.getElementById(variabile).style.display=='') { 
-		document.getElementById(variabile).style.display='none'; 
-}}
-</script>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -200,37 +188,78 @@ desired effect
 		
 			<div class="box box-info" style="border-top-color:#00993a">
             <div class="box-header with-border">
-              <h3 class="box-title">Seleziona un'opzione</h3>
+              <h3 class="box-title">Dati del sensore</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" action="inserisci_sensore1.php" name="form1" method="post">
+            <form class="form-horizontal" action="inserisci_sensore_ok.php" method="post">
               <div class="box-body">
 				<div class="form-group">
-                  <div class="radio">
-					  <label for="cliente" class="col-sm-2 control-label"></label>
+                  <label for="marcas" class="col-sm-2 control-label">Marca</label>
 
-					  <div class="col-sm-10">
-						<input type="radio" value="nuovo" name="opz" id="cliente" required onclick="azione2('s'); this.form.text1.disabled = this.checked;">Sensore con nuovo tipo
-					  </div>
-				  </div>
-				  <div class="radio">
-					  <label for="cliente" class="col-sm-2 control-label"></label>
-					  <div class="col-sm-10">
-						<input type="radio" value="esiste" name="opz" id="terzaparte" onclick="azione('s'); this.form.text1.disabled = !this.checked;">Sensore con tipo esistente&emsp;
-						<div style="display:none;" id="s" >Ciao, questo testo scomparirà!</div><input type="text" name="text1" value="aaa" disabled>
-					  </div>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="marcas" name="marca" placeholder="Es. Sony" required>
+                  </div>
+                </div>
+				
+				<h4>Cliente relativo</h4>
+						
+				<div class="form-group">
+                  <label for="cli" class="col-sm-2 control-label">Cliente</label>
+                  <div class="col-sm-10"> 
+				  <select class="form-control" name="cliente" required>
+                    <?php 
+					$stmt=$conn->query("SELECT codCliente, nomeCliente, cognomeCliente FROM clienti");
+					while($row = $stmt->fetch_assoc()){
+							echo "<option value=" . $row['codCliente'] . ">" . $row['codCliente'] . " - " . $row['nomeCliente'] . " " . $row['cognomeCliente'] . "</option>";
+						}
+					?>
+                  </select>
 				  </div>
                 </div>
+				
+				<h4>Tipo di sensore - Formato stringa - (Inserire i campi in ordine di posizione nella stringa)</h4>
+				<?php
+				for ($i=1; $i<=$num_campi; $i++){
+					echo "<h5>Campo" . $i . "</h5>";
+					echo "
+						<div class=\"form-group\">
+						  <label for=\"marcas\" class=\"col-sm-2 control-label\">Lunghezza</label>
 
-				 
+						  <div class=\"col-sm-10\">
+							<input type=\"number\" class=\"form-control\" id=\"lunghezzat\" name=\"lunghezza".$i."\" placeholder=\"Es. 5\" required>
+						  </div>
+						</div>
+						
+						<div class=\"form-group\">
+						  <label for=\"marcas\" class=\"col-sm-2 control-label\">Descrizione tipo</label>
+
+						  <div class=\"col-sm-10\">
+							<input type=\"text\" class=\"form-control\" id=\"descrizionet\" name=\"descrizione".$i."\" placeholder=\"Es. temperatura, errore, ora, ecc.\" required>
+						  </div>
+						</div>
+						
+						<div class=\"form-group\">
+						  <label for=\"cli\" class=\"col-sm-2 control-label\">Tipo di dato</label>
+						  <div class=\"col-sm-10\"> 
+						  <select class=\"form-control\" name=\"tipo".$i."\" required>";
+							$stmt=$conn->query("SELECT cod_tipo, tipo_dato FROM tipi");
+							while($row = $stmt->fetch_assoc()){
+								echo "<option value=".$row['cod_tipo'].">" . $row['tipo_dato'] . "</option>";
+							}
+						echo "</select></div></div>";
+				}
+				if ($num_campi>1) echo "<span style=\"float:left;\"><a href=\"inserisci_sensore.php?campi=" . ($num_campi - 1) . "\">Rimuovi un campo</a></span>";
+				echo "<p align=\"right\"><a href=\"inserisci_sensore.php?campi=" . ($num_campi + 1) . "\">Aggiungi un campo</a></p>";
+				?>
+				
 			  <!-- /.box-body -->
 			  <span>
               <div class="box-footer">
 				<button type="reset" class="btn btn-default">Cancella</button>
 				<?php $_SESSION['fatto']=1; 
 				$_SESSION['campi']=$num_campi;?>
-                <button type="submit" class="btn btn-info pull-right" style="border-color:#00993a; background-color:#00993a">Avanti</button>
+                <button type="submit" class="btn btn-info pull-right" style="border-color:#00993a; background-color:#00993a">Inserisci</button>
 
               </div></span>
               <!-- /.box-footer -->
