@@ -154,7 +154,7 @@ desired effect
 				  </span>
 			  </a>
 			  <ul class="treeview-menu" style="display: none;">
-				<li><a href="inserisci_sensore.php">Inserisci nuovo sensore</a></li>
+				<li><a href="inserisci_sensore.php?campi=1">Inserisci nuovo sensore</a></li>
 				<li><a href="elimina_sensore.php">Elimina sensore</a></li>
 				<li><a href="inserisci_tipo.php">Inserisci nuovo tipo di sensore</a></li>
 			  </ul>
@@ -243,7 +243,7 @@ desired effect
 						<div class="icon" style="top:-2px">
 							<i class="fa  fa-plus-square"></i>
 						</div>
-						<a href="inserisci_sensore.php" class="small-box-footer">
+						<a href="inserisci_sensore.php?campi=1" class="small-box-footer">
 						Vai <i class="fa fa-arrow-circle-right"></i>
 						</a>
 					</div>
