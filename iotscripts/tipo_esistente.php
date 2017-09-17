@@ -3,7 +3,7 @@
 session_start();
 require 'dbconnect.php';
 $conn=new mysqli($host, $user, $pwd, $db);
-$num_campi=$_GET['campi'];
+
 ?>
 
 <html style="height: auto; min-height: 100%;"><head>
@@ -33,19 +33,6 @@ $num_campi=$_GET['campi'];
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <script type="text/javascript"> 
-	//Dichiaro la funzione 
-	function azione(variabile,var2) { 
-	document.getElementById(variabile).style.display='';
-	document.getElementById(var2).style.display='';}
-</script>
- <script type="text/javascript"> 
-	//Dichiaro la funzione 
-	function azione2(variabile) { 
-	if(document.getElementById(variabile).style.display=='') { 
-		document.getElementById(variabile).style.display='none'; 
-}}
-</script>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -201,43 +188,59 @@ desired effect
 		
 			<div class="box box-info" style="border-top-color:#00993a">
             <div class="box-header with-border">
-              <h3 class="box-title">Seleziona un'opzione</h3>
+              <h3 class="box-title">Dati del sensore</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal" action="inserisci_sensore1.php" name="form1" method="post">
+            <form class="form-horizontal" action="inserisci_sensore_ok.php" method="post">
               <div class="box-body">
 				<div class="form-group">
-                  <div class="radio">
-					  <label for="cliente" class="col-sm-2 control-label"></label>
+                  <label for="marcas" class="col-sm-2 control-label">Marca</label>
 
-					  <div class="col-sm-10">
-						<input type="radio" value="nuovo" name="opz" id="cliente" required onclick="azione2('s')">Sensore con nuovo tipo
-					  </div>
-				  </div>
-				  <div class="radio">
-					  <label for="cliente" class="col-sm-2 control-label"></label>
-					  <div class="col-sm-10">
-						<input type="radio" value="esiste" name="opz" id="terzaparte" onclick="azione('s')">Sensore con tipo esistente
-						<div style="display:none;" id="s" >Seleziona il sensore dal quale copiare il tipo&emsp;<select name="sensore">
-							<?php 
-								$stmt=$conn->query("SELECT codSensore, marca,clienteS FROM sensori");
-								while($row = $stmt->fetch_assoc()){
-									echo "<option value=".$row['codSensore'].">" . $row['codSensore'] . " - " . $row['marca'] . " del cliente num. " . $row['clienteS'] . "</option>";
-								}
-							?>
-						</select>
-						</div>
-					  </div>
-				  </div>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="marcas" name="marca" placeholder="Es. Sony" required>
+                  </div>
                 </div>
-
-				 
+				
+				<h4>Cliente relativo</h4>
+						
+				<div class="form-group">
+                  <label for="cli" class="col-sm-2 control-label">Cliente</label>
+                  <div class="col-sm-10"> 
+				  <select class="form-control" name="cliente" required>
+                    <?php 
+					$stmt=$conn->query("SELECT codCliente, nomeCliente, cognomeCliente FROM clienti");
+					while($row = $stmt->fetch_assoc()){
+							echo "<option value=" . $row['codCliente'] . ">" . $row['codCliente'] . " - " . $row['nomeCliente'] . " " . $row['cognomeCliente'] . "</option>";
+						}
+					?>
+                  </select>
+				  </div>
+                </div>				
+				<h4>Tipo di sensore scelto - Formato stringa</h4>
+				<div class="box-body">
+				<div id="ril_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-12"><table id="ril" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="ril_info">
+				<thead>
+				<!-- <tr role=\"row\"><th class=\"sorting_asc\" tabindex=\"0\" aria-controls=\"ril\" rowspan=\"1\" colspan=\"1\" aria-sort=\"ascending\" aria-label=\"Rendering engine: activate to sort column descending\" style=\"width: 217px;\">Rendering engine</th><th class=\"sorting\" tabindex=\"0\" aria-controls=\"ril\" rowspan=\"1\" colspan=\"1\" aria-label=\"Browser: activate to sort column ascending\" style=\"width: 267.4px;\">Browser</th><th class=\"sorting\" tabindex=\"0\" aria-controls=\"ril\" rowspan=\"1\" colspan=\"1\" aria-label=\"Platform(s): activate to sort column ascending\" style=\"width: 237px;\">Platform(s)</th><th class=\"sorting\" tabindex=\"0\" aria-controls=\"example1\" rowspan=\"1\" colspan=\"1\" aria-label=\"Engine version: activate to sort column ascending\" style=\"width: 186.6px;\">Engine version</th><th class=\"sorting\" tabindex=\"0\" aria-controls=\"ril\" rowspan=\"1\" colspan=\"1\" aria-label=\"CSS grade: activate to sort column ascending\" style=\"width: 135.6px;\">CSS grade</th></tr>-->
+				</thead>
+				<tbody>
+				<?php			
+					$stmt = $conn->query("SELECT inizio, cod_sensore_rt, lunghezza, descrizione_t FROM sensori_tipi WHERE cod_sensore_rt=" . $_SESSION['sensore'] . " ORDER BY inizio");
+					echo "<tr role=\"row\" class=\"odd\">";
+					echo "<th>Codice sensore</th><th>Descrizione dato</th><th>Lunghezza</th></tr>";
+					while($row = $stmt->fetch_assoc()){
+						echo "<tr role=\"row\" class=\"odd\">";
+						echo "<td>" . $row["cod_sensore_rt"] . "</td><td>" . $row["lunghezza"] . "</td><td>" . $row["descrizione_t"] . "</td></tr>";
+					}
+					echo "</tbody></table></div></div></div></div>";
+				?>
+				
 			  <!-- /.box-body -->
 			  <span>
               <div class="box-footer">
 				<button type="reset" class="btn btn-default">Cancella</button>
-                <button type="submit" class="btn btn-info pull-right" style="border-color:#00993a; background-color:#00993a">Avanti</button>
+				<?php $_SESSION['fatto']=1;?>
+                <button type="submit" class="btn btn-info pull-right" style="border-color:#00993a; background-color:#00993a">Inserisci</button>
 
               </div></span>
               <!-- /.box-footer -->
