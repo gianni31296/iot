@@ -239,7 +239,7 @@ desired effect
                   <label for="nomec" class="col-sm-2 control-label">Nome</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nomec" name="nome" value="<?php echo $row["nomeCliente"]; ?>" readonly>
+                    <input type="text" class="form-control" id="nomec" name="nome" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["nomeCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["nomeTP"];?>" readonly>
                   </div>
                 </div>
 				
@@ -247,7 +247,7 @@ desired effect
                   <label for="cognomec" class="col-sm-2 control-label">Cognome</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="cognomec" name="cognome" value="<?php echo $row["cognomeCliente"]; ?>" readonly>
+                    <input type="text" class="form-control" id="cognomec" name="cognome" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["cognomeCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["cognomeTP"];?>" readonly>
                   </div>
                 </div>
                 
@@ -256,10 +256,10 @@ desired effect
 				  <div class="col-sm-10">
                   <div class="radio">
 							<div class="col-sm-2">
-							<input type="radio" value="m" name="sesso" id="sessom" <?php if($row["sessoCliente"]=="m") echo "checked"; ?> disabled>Maschio&emsp;
+							<input type="radio" value="m" name="sesso" id="sessom" <?php if ($_SESSION["tipo_utente"]=="c"){if($row["sessoCliente"]=="m") echo "checked";} elseif ($_SESSION["tipo_utente"]=="t"){if($row["sessoTP"]=="m") echo "checked";}?> disabled>Maschio&emsp;
 							</div>
 							<div class="col-sm-2">
-							<input type="radio" value="f" name="sesso" id="sessof" <?php if($row["sessoCliente"]=="f") echo "checked"; ?> disabled>Femmina
+							<input type="radio" value="f" name="sesso" id="sessof" <?php if ($_SESSION["tipo_utente"]=="c"){if($row["sessoCliente"]=="f") echo "checked";} elseif ($_SESSION["tipo_utente"]=="t"){if($row["sessoTP"]=="f") echo "checked";}?> disabled>Femmina
 							</div>
 				  </div>
 				  </div>
@@ -272,7 +272,7 @@ desired effect
 					  <div class="input-group-addon">
 						<i class="fa fa-home"></i>
 					  </div>
-                    <input type="text" class="form-control" id="indirizzoc" name="indirizzo" value="<?php echo $row["indirizzoCliente"]; ?>" readonly>
+                    <input type="text" class="form-control" id="indirizzoc" name="indirizzo" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["indirizzoCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["indirizzoTP"];?>" readonly>
 					</div>
 				  </div>
                 </div>
@@ -284,7 +284,7 @@ desired effect
 					  <div class="input-group-addon">
 						<i class="fa fa-home"></i>
 					  </div>  
-					  <input type="text" class="form-control" id="residenzac" name="residenza" value="<?php echo $row["residenzaCliente"]; ?>" readonly>
+					  <input type="text" class="form-control" id="residenzac" name="residenza" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["residenzaCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["residenzaTP"];?>" readonly>
 					</div>
 				  </div>
                 </div>
@@ -296,7 +296,7 @@ desired effect
 					  <div class="input-group-addon">
 						<i class="fa fa-phone"></i>
 					  </div>
-					  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="" name="telefono" value="<?php echo $row["telefonoCliente"]; ?>" readonly>
+					  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="" name="telefono" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["telefonoCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["telefonoTP"];?>" readonly>
 					</div>
 					</div>
 				</div>
@@ -308,7 +308,7 @@ desired effect
 					  <div class="input-group-addon">
 					  <i class="fa fa-envelope"></i>
 					  </div>
-					  <input type="email" class="form-control" id="emailc" name="email" value="<?php echo $row["emailCliente"]; ?>" readonly>                  
+					  <input type="email" class="form-control" id="emailc" name="email" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["emailCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["emailTP"];?>" readonly>                  
 					</div>
                   </div>
 				</div>
