@@ -163,9 +163,8 @@ desired effect
 				  </span>
 			  </a>
 			  <ul class="treeview-menu" style="display: none;">
-				<li><a href="inserisci_sensore.php?campi=1">Inserisci nuovo sensore</a></li>
+				<li><a href="inserisci_sensore.php">Inserisci nuovo sensore</a></li>
 				<li><a href="elimina_sensore.php">Elimina sensore</a></li>
-				<li><a href="inserisci_tipo.php">Inserisci nuovo tipo di sensore</a></li>
 			  </ul>
 			</li>
 			
@@ -238,6 +237,7 @@ desired effect
 			  <!-- /.box-body -->
 			  <span>
               <div class="box-footer">
+				<input type="hidden" name="prov" value="esistente">
 				<button type="reset" class="btn btn-default">Cancella</button>
 				<?php $_SESSION['fatto']=1;?>
                 <button type="submit" class="btn btn-info pull-right" style="border-color:#00993a; background-color:#00993a">Inserisci</button>

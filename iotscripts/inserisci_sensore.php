@@ -3,7 +3,6 @@
 session_start();
 require 'dbconnect.php';
 $conn=new mysqli($host, $user, $pwd, $db);
-$num_campi=$_GET['campi'];
 ?>
 
 <html style="height: auto; min-height: 100%;"><head>
@@ -176,9 +175,8 @@ desired effect
 				  </span>
 			  </a>
 			  <ul class="treeview-menu" style="display: none;">
-				<li><a href="inserisci_sensore.php?campi=1">Inserisci nuovo sensore</a></li>
+				<li><a href="inserisci_sensore.php">Inserisci nuovo sensore</a></li>
 				<li><a href="elimina_sensore.php">Elimina sensore</a></li>
-				<li><a href="inserisci_tipo.php">Inserisci nuovo tipo di sensore</a></li>
 			  </ul>
 			</li>
 			
