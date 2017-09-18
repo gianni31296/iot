@@ -250,7 +250,7 @@ desired effect
 								while($row = $stmt->fetch_assoc()){
 									echo "<tr role=\"row\" class=\"odd\">";
 									echo "<td>" . $row["codSensore"] . "</td><td>" . $row["marca"] . "</td>";
-									echo "<td><a href=\"#\"><center><span class=\"glyphicon glyphicon glyphicon-envelope\" style=\"color:light-blue\"></span></center></a></td></tr>";
+									echo "<td><a href=\"esporta_mail.php?sensore=" . $row["codSensore"] . "\"><center><span class=\"glyphicon glyphicon glyphicon-envelope\" style=\"color:light-blue\"></span></center></a></td></tr>";
 								}
 								break;
 						}						

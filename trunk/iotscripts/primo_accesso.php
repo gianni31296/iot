@@ -183,39 +183,7 @@ desired effect
       <ul class="sidebar-menu tree" data-widget="tree">
 		<li class="header"><h4>OPERAZIONI:</h4></li>
 		<!-- search form (Optional) -->
-		<li>
-			<form action="ricerca_ril_cod.php" method="post" class="sidebar-form">
-				<div class="input-group">
-				  <input type="text" name="cod" class="form-control" placeholder="Codice rilevazione">
-				  <span class="input-group-btn">
-					  <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-					  </button>
-					</span>
-				</div>
-			</form>
-		</li>
-        <li><a href="visualizza_rilevazioni.php?option=0"><i class="fa fa-link"></i> <span>Visualizza rilevazioni</span></a></li>
-        <?php if ($_SESSION["tipo_utente"]=="c") echo "<li><a href=\"visualizza_rilevazioni.php?option=1\"><i class=\"fa fa-link\"></i> <span>Stato rilevazioni</span></a></li>";?>
-		
-		<?php if ($_SESSION["tipo_utente"]=="c") echo "<li><a href=\"visualizza_rilevazioni.php?option=2\"><i class=\"fa fa-link\"></i> <span>Esporta dati in XML</span></a></li>";
-			elseif ($_SESSION["tipo_utente"]=="t") echo "<li><a href=\"visualizza_rilevazioni.php?option=3\"><i class=\"fa fa-link\"></i> <span>Esporta dati via mail</span></a></li>"; ?>
-			
-        <?php if ($_SESSION["tipo_utente"]=="c") echo "
-			<li class=\"treeview\">
-			  <a href=\"#\"><i class=\"fa fa-link\"></i> <span>Terze parti</span>
-				<span class=\"pull-right-container\">
-					<i class=\"fa fa-angle-left pull-right\"></i>
-				  </span>
-			  </a>
-			  <ul class=\"treeview-menu\" style=\"display: none;\">
-				<li><a href=\"autorizza_tp.php\">Autorizza</a></li>
-				<li><a href=\"revoca_tp.php\">Revoca autorizzazione</a></li>
-			  </ul>
-			</li>";?>
-			
-        <li><a href="#"><i class="fa fa-link"></i> <span>Sintesi</span></a></li>
-
-      </ul>
+		</ul>
       <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
@@ -251,7 +219,7 @@ desired effect
 			}
 		
 			if ($_SESSION["tipo_utente"]=="c") $stmt=$conn->query("SELECT nomeCliente, cognomeCliente, sessoCliente, indirizzoCliente, residenzaCliente, emailCliente, telefonoCliente FROM clienti WHERE codCliente=" . $_SESSION['login']);
-			elseif ($_SESSION["tipo_utente"]=="t") $stmt=$conn->query("SELECT nomeTP, cognomeTP, sessoTP, indirizzoTP, residenzaTP, emailTP, telefonoTP FROM clienti WHERE codTP=" . $_SESSION['login']);
+			elseif ($_SESSION["tipo_utente"]=="t") $stmt=$conn->query("SELECT nomeTP, cognomeTP, sessoTP, indirizzoTP, residenzaTP, emailTP, telefonoTP FROM terzeparti WHERE codTP=" . $_SESSION['login']);
 			$row = $stmt->fetch_assoc();
 		?>
 		

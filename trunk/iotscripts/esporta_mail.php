@@ -1,9 +1,101 @@
-<?php
+<?php 
 
-session_start();
-require 'dbconnect.php';
-$conn=new mysqli($host, $user, $pwd, $db);
-$option = filter_input(INPUT_GET,'option');
+	session_start();
+	require 'dbconnect.php';
+	$_SESSION['login']=1;
+
+	$conn=new mysqli($host, $user, $pwd, $db);
+
+	// Check connection
+	if ($conn->connect_error) {
+		die("Connection failed: " . $conn->connect_error);
+	}
+	$no_ril=0;
+	$sensore = filter_input(INPUT_GET,'sensore');
+	/*$inizio=0;
+	$num_righe=25;
+	$res=$conn->query("select  count(*) as cnt from sensori_tipi where cod_sensore_rt=".$conn->escape_string($sensore));
+	$data_num_colonne=$res->fetch_assoc();
+	$num_colonne=$data_num_colonne["cnt"];
+*/	
+	$stmt = $conn->prepare("
+	select codRilevazione,rilevazioni.erroreR as errore,
+	 if(tipo_dato='intero' or tipo_dato='decimale',
+		convert(substr(stringa,inizio,lunghezza),decimal),
+		if(tipo_dato='data',
+			date_format(convert(substr(stringa,inizio,lunghezza),date),'%d/%m/%Y'),
+			if(tipo_dato='ora',
+				convert(substr(stringa,inizio,lunghezza),time),
+				substr(stringa,inizio,lunghezza)
+			)
+		)
+	 ) 
+	 dato,sensori_tipi.descrizione_t,rilevazioni.descrizione from sensori_tipi 
+	 join rilevazioni on rilevazioni.sensoreR=sensori_tipi.cod_sensore_rt
+	 join tipi on tipi.cod_tipo=sensori_tipi.cod_tipo_rt 
+	 join sensori on sensori.codsensore=sensori_tipi.cod_sensore_rt
+	 left join errori on rilevazioni.erroreR=errori.codErrore
+	 where sensori.clienteS= ? 
+	 and rilevazioni.sensoreR= ".$sensore. "
+	 and sensori_tipi.cod_sensore_rt= ".$sensore. "
+	 and rilevazioni.stato!=0
+	 order by codRilevazione");
+	$stmt->bind_param("d",$_SESSION["login"]);
+	$stmt->execute();
+	$stmt->store_result();
+	$stmt->bind_result($cod,$e,$a,$b,$c);
+	$i=0;
+	$numero_dati=$stmt->num_rows;
+
+	//$cols= Array( $numero_dati);
+	$headers=Array();
+	
+	if ($numero_dati>0){
+		$xml = new SimpleXMLElement('<xml/>');
+
+		while($stmt->fetch()){
+			$cols[$cod][$b]=$a;
+			$cols[$cod]["descrizione"]=$c;
+			$headers[$b]=$b;
+			$codici[$cod]=$cod;
+		}
+		
+		if(count($headers)>0){
+		
+		$headers["descrizione"]="descrizione";
+			
+			foreach($headers as $header){
+			
+				foreach($cols as $k=>$v){
+
+					$num=0;
+					$ril = $xml->addChild('rilevazione');
+					foreach($headers as $header){
+						
+						if($num==0){
+							$ril->addChild('codice', $codici[$k]);
+							$num++;
+						}
+						if($header=='errore' AND $cols[$k]['errore']>0){
+							$ril->addChild('errore', $e[$k]);
+						} else {
+							$ril->addChild($header, $cols[$k][$header]);
+						}
+						
+					}
+				}
+			}
+		} else echo "no";
+	 
+		//Header('Content-type: text/xml');
+		//print($xml->asXML());
+		if(file_exists("rilevazioni_s". $sensore . ".xml")) unlink("rilevazioni_s". $sensore . ".xml");
+		$f=fopen("rilevazioni_s". $sensore . ".xml","w");
+		fwrite($f,$xml->asXML());
+		fflush($f);
+		fclose($f);
+		
+	} else $no_ril=1;	
 ?>
 
 <html style="height: auto; min-height: 100%;"><head>
@@ -33,16 +125,17 @@ $option = filter_input(INPUT_GET,'option');
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
+  
+  
+  
   <!--- pezzo script jquery -->
   <script src='js/jquery-3.2.1.min.js'></script>
   <script src="js/on-off-switch.js"></script>
   <script src="js/on-off-switch-onload.js"></script>
   <link rel="stylesheet" href="css/on-off-switch.css">
-  
-  
-  
+	<!--- fine pezzo script jquery -->
 </head>
+
 <!--
 BODY TAG OPTIONS:
 =================
@@ -194,171 +287,27 @@ desired effect
   <div class="content-wrapper" style="min-height: 754px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Esito ricerca</h1>
+      <h1>Esporta XML</h1>
     </section>
 	<!-- Main content -->
 	<div class="content">
 		
 		<section class="content">
-		
-			<div class="box">
-            <div class="box-header">
-            </div>
-            
-			<!-- /.box-header -->
-            <div class="box-body">
-              <div id="ril_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"><div id="ril_filter" class="dataTables_filter"></div></div></div><div class="row"><div class="col-sm-12"><table id="ril" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="ril_info">
-                <tbody> 
-				
-					<?php 
-						$cod=filter_input(INPUT_POST,"cod");
-						$inizio=0;
-						$cod_sensore=1;
-						$num_righe=25;
-						$res=$conn->query("select  count(*) as cnt from sensori_tipi where cod_sensore_rt=".$conn->escape_string($cod_sensore));
-						$data_num_colonne=$res->fetch_assoc();
-						$num_colonne=$data_num_colonne["cnt"];
-						
-						$stmt = $conn->prepare("
-						select codRilevazione,rilevazioni.erroreR as errore,
-						 if(tipo_dato='intero' or tipo_dato='decimale',
-							convert(substr(stringa,inizio,lunghezza),decimal),
-							if(tipo_dato='data',
-								date_format(convert(substr(stringa,inizio,lunghezza),date),'%d/%m/%Y'),
-								if(tipo_dato='ora',
-									convert(substr(stringa,inizio,lunghezza),time),
-									substr(stringa,inizio,lunghezza)
-								)
-							)
-						 ) 
-						 dato,sensori_tipi.descrizione_t,rilevazioni.descrizione,rilevazioni.stato from sensori_tipi 
-						 join rilevazioni on rilevazioni.sensoreR=sensori_tipi.cod_sensore_rt
-						 join tipi on tipi.cod_tipo=sensori_tipi.cod_tipo_rt 
-						 join sensori on sensori.codsensore=sensori_tipi.cod_sensore_rt
-						 left join errori on rilevazioni.erroreR=errori.codErrore
-						 where sensori.clienteS=?
-						 and codRilevazione=".$cod."
-						 and sensori_tipi.cod_sensore_rt=rilevazioni.sensoreR");
-						if (empty($cod)==FALSE){
-							$stmt->bind_param("d",$_SESSION["login"]);
-							$stmt->execute();
-							$stmt->store_result();
-							$stmt->bind_result($cod, $e, $a, $b, $c, $d);
-							$i=0;
-							$numero_dati=$stmt->num_rows;
-							//$cols= Array( $numero_dati);
-							$max_righe=10;
-							$inizio_righe=0;
-							$conteggio_righe=0;
-							$headers=Array();
-							$cols=Array();
-							$xml = new SimpleXMLElement('<xml/>');
-							while($stmt->fetch() && $conteggio_righe<$max_righe){
-
-								$cols[$cod][$b]=$a;
-								$cols[$cod]["descrizione"]=$c;
-								$cols[$cod]["stato"]=$d;
-								$headers[$b]=$b;
-								$codici[$cod]=$cod;
-								
-							}
-
-							if(count($headers)>0){
-								$headers["descrizione"]="descrizione";
-								$headers["stato"]="stato";						
-								echo "<tr role=\"row\" class=\"odd\">";
-								echo "<th>";
-									echo "codice";
-									echo "</th>";
-								
-								foreach($headers as $header){
-									if ($header=='stato'){
-										echo "<th><center>";
-									echo $header;
-									echo "</center></th>";
-									}else {
-										echo "<th>";
-										echo $header;
-										echo "</th>";
-									}
-								}
-							echo "</tr>";
-							
-							foreach($cols as $k=>$v){
-
-								echo "<tr role=\"row\" class=\"odd\">";
-								$num=0;
-								$ril = $xml->addChild('rilevazione');
-								foreach($headers as $header){
-									if($num==0){
-									$ril->addChild('codice', $codici[$k]);
-									echo "<td>";
-									echo $codici[$k];
-									echo "</td>";
-									$num++;
-									}
-									echo "<td>";
-									if ($header=='errore' AND $cols[$k]['errore']==0) echo "-";
-									else if($header=='errore' AND $cols[$k]['errore']>0){$ril->addChild('errore', $e[$k]); echo "<a href=\"errore.php?cod=".$codici[$k]."\">".$cols[$k][$header]."</a>";}
-									if ($header=='stato' AND $option==1) {
-											$statocheck="";
-											//print_r( $cols[$k]);
-											if ($cols[$k]['stato']==1) $statocheck="checked";
-											echo "<center><input type=\"checkbox\" class=\"on-off-switch\" id=\"switch".$k."\" name=\"switch".$k."\" cod_number=12 $statocheck></center>"; 
-									}
-									else if ($header=='stato' AND ($option==0 OR $option==2 OR $option==3)) { if ($cols[$k]['stato']==0) echo "<center>nascosta</center>"; else echo "<center>visibile</center>"; }
-									else if ($header!='errore'){$ril->addChild($header, $cols[$k][$header]); echo $cols[$k][$header] ;}
-									echo "</td>";
-									
-								}
-								echo "</tr>";
-							}
-							}
-							else echo "<div class=\"col-md-5\"><div class=\"alert alert-danger alert-dismissible\">
-									  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button>
-									  <h4><i class=\"icon fa fa-ban\"></i> Errore!</h4>
-										Non è stata trovata nessuna rilevazione con il codice inserito!
-									  </div></div><META HTTP-EQUIV=REFRESH CONTENT=\"5; URL=utente.php\"";
-						} else {
-							echo "<div class=\"col-md-5\"><div class=\"alert alert-danger alert-dismissible\">
-								  <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">×</button>
-								  <h4><i class=\"icon fa fa-ban\"></i> Errore!</h4>
-									Non è stato inserito nessun codice!
-								  </div></div><META HTTP-EQUIV=REFRESH CONTENT=\"5; URL=utente.php\"";
-						}
-					?>
-									
-				</tbody>
-            </table>
-			
-			
-			<?php
-				if(file_exists("rilevazione_".$cod.".xml")) unlink("rilevazione_".$cod.".xml");
-				$f=fopen("rilevazione_".$cod.".xml","w");
-				fwrite($f,$xml->asXML());
-				fflush($f);
-				fclose($f);
-				
-				
-				
-			?>	
-			
-			</div></div></div>
-            </div>
-            <!-- /.box-body -->
-          </div>
-		  <?php if($option==2)echo "
-		  <center><a class=\"btn btn-app\" href=\"rilevazione_" . $cod . ".xml\" download target=_blank style=\"color:black\">
-                <i class=\"fa fa-save\"></i> Esporta
-            </a></center>";
-			else echo "
-		  <center><a class=\"btn btn-app\" href=\"rilevazione_" . $cod . ".xml\" download target=_blank style=\"color:black\">
-                <i class=\"fa fa-envelope\"></i> Invia
-            </a></center>";?>
-			
-			
-		  </section>
-	</div>	
+			<center>
+                <?php if(file_exists("rilevazioni_s". $sensore . ".xml")) echo 
+				'<div class="alert alert-success alert-dismissible">'.
+				'<font size="6"><i class="icon fa fa-check"></i>Il tuo file è pronto!</font>&emsp;&emsp;'.
+				'<a class="btn btn-app" href="rilevazioni.xml" download target=_blank style="color:black">'.
+                '<i class="fa fa-save"></i> Esporta'.
+				'</a>'.
+				'</div>';
+				 else echo '<div class="alert alert-danger alert-dismissible">'.
+				 '<font size="6"><i class="icon fa fa-times"></i>Errore nella creazione del file!</font>'. ($no_ril==1 ? '<br><font size="4">Non ci sono rilevazioni relative al sensore inserito</font>' : '') . 
+				 '</div>';
+				?>
+              </center>
+		</section>
+    </div>
   </div>
   <!-- /.content-wrapper -->
 
@@ -370,27 +319,26 @@ desired effect
 
 </div>
 <!-- ./wrapper -->
+
 <!-- REQUIRED JS SCRIPTS -->
 <script>
-							new DG.OnOffSwitchAuto({
-								cls: '.on-off-switch',
+							new DG.OnOffSwitch({
+								el: '#on-off-switch',
 								textOn: 'Visibile',
 								textOff: 'Nascosto',
 								listener:function(name, checked){
-									//alert(parseInt(name.substring(6)));
-									//alert(DG.switches["#"+name].getValue());
-									$.post("update_rilevazione.php",{"cod":parseInt(name.substring(6)),"value":DG.switches["#"+name].getValue()},function(data){
-										//alert($('#on-off-switch').attr("cod_number"));
-										alert(data);
+									//alert("CIAO");
+									$.post("utente.php",{"cod":$('#on-off-switch').attr("cod_number")},function(data){
+										alert($('#on-off-switch').attr("cod_number"));
 									})
 								}
 							});
 
 							$("document").ready(function(){
-								//$(".on-off-switch").click(function(){
+								$("#on-off-switch").click(function(){
 									//$.get("utente.php",{"q":"GIANNI MASTROVITO"},function(data){$("#CIAONE").html(data);})
-									//alert("CIAO");
-								//});
+									alert("CIAO");
+								});
 							});
 
 							</script>
@@ -405,7 +353,4 @@ desired effect
      Both of these plugins are recommended to enhance the
      user experience. -->
 
-</body></html>
-
-
-
+</body></html>	

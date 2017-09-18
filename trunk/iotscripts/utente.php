@@ -259,7 +259,7 @@ desired effect
 							</a>
 						</div>  
 					</div>";} elseif ($_SESSION["tipo_utente"]=="t") {echo "
-					<!-- Esporta XML -->
+					<!-- Esporta mail -->
 					<div class=\"col-md-3 col-sm-6 col-xs-12\">
 						<!-- small box -->
 						<div class=\"small-box bg-green\">
