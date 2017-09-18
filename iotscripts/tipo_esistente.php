@@ -229,7 +229,7 @@ desired effect
 					echo "<th>Codice sensore</th><th>Descrizione dato</th><th>Lunghezza</th></tr>";
 					while($row = $stmt->fetch_assoc()){
 						echo "<tr role=\"row\" class=\"odd\">";
-						echo "<td>" . $row["cod_sensore_rt"] . "</td><td>" . $row["lunghezza"] . "</td><td>" . $row["descrizione_t"] . "</td></tr>";
+						echo "<td>" . $row['cod_sensore_rt'] . "</td><td>" . $row['lunghezza'] . "</td><td>" . $row['descrizione_t'] . "</td></tr>";
 					}
 					echo "</tbody></table></div></div></div></div>";
 				?>

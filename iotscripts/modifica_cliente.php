@@ -208,8 +208,8 @@ desired effect
 
 						while($row = $stmt->fetch_assoc()){
 							echo "<tr role=\"row\" class=\"odd\">";
-							echo "<td>" . $row["codCliente"] . "</td><td>" . $row["nomeCliente"] . "</td><td>" . $row["cognomeCliente"] . "</td><td>" . $row["sessoCliente"] . "</td><td>" . $row["indirizzoCliente"] . "</td><td>" . $row["residenzaCliente"] . "</td><td>" . $row["emailCliente"] . "</td><td>" . $row["telefonoCliente"] . "</td>";
-							echo "<td><a href=\"modifica_form.php?cod=" . $row["codCliente"] . "\"><center><span class=\"glyphicon glyphicon-pencil\" style=\"color:light-blue; text-align:center\"></span></center></a></td></tr>";
+							echo "<td>" . $row['codCliente'] . "</td><td>" . $row['nomeCliente'] . "</td><td>" . $row['cognomeCliente'] . "</td><td>" . $row['sessoCliente'] . "</td><td>" . $row['indirizzoCliente'] . "</td><td>" . $row['residenzaCliente'] . "</td><td>" . $row['emailCliente'] . "</td><td>" . $row['telefonoCliente'] . "</td>";
+							echo "<td><a href=\"modifica_form.php?cod=" . $row['codCliente'] . "\"><center><span class=\"glyphicon glyphicon-pencil\" style=\"color:light-blue; text-align:center\"></span></center></a></td></tr>";
 						}
 					?>
 			</tbody>

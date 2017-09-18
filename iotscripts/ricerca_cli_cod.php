@@ -202,7 +202,7 @@ desired effect
 							if(($stmt->num_rows)>0 ){
 								$row = $stmt->fetch_assoc();
 								echo "<tr><th>Codice</th><th>Nome</th><th>Cognome</th><th>Sesso</th><th>Indirizzo</th><th>Residenza</th><th>Email</th><th>Telefono</th></tr>";
-								echo "<tr><td>" . $row["codCliente"] . "</td><td>" . $row["nomeCliente"] . "</td><td>" . $row["cognomeCliente"] . "</td><td>" . $row["sessoCliente"] . "</td><td>" . $row["indirizzoCliente"] . "</td><td>" . $row["residenzaCliente"] . "</td><td>" . $row["emailCliente"] . "</td><td>" . $row["telefonoCliente"] . "</td></tr>";
+								echo "<tr><td>" . $row['codCliente'] . "</td><td>" . $row['nomeCliente'] . "</td><td>" . $row['cognomeCliente'] . "</td><td>" . $row['sessoCliente'] . "</td><td>" . $row['indirizzoCliente'] . "</td><td>" . $row['residenzaCliente'] . "</td><td>" . $row['emailCliente'] . "</td><td>" . $row['telefonoCliente'] . "</td></tr>";
 								$ris=1;
 							} else {
 								echo "<div class=\"col-md-5\"><div class=\"alert alert-danger alert-dismissible\">

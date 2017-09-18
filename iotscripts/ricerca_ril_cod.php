@@ -104,7 +104,7 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="../dist/img/avatar5.png" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php echo $_SESSION["login_nome"] . " " . $_SESSION["login_cognome"];?></span>
+              <span class="hidden-xs"><?php echo $_SESSION['login_nome'] . " " . $_SESSION['login_cognome'];?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -378,8 +378,8 @@ desired effect
 								textOff: 'Nascosto',
 								listener:function(name, checked){
 									//alert(parseInt(name.substring(6)));
-									//alert(DG.switches["#"+name].getValue());
-									$.post("update_rilevazione.php",{"cod":parseInt(name.substring(6)),"value":DG.switches["#"+name].getValue()},function(data){
+									//alert(DG.switches['#"+name].getValue());
+									$.post("update_rilevazione.php",{"cod":parseInt(name.substring(6)),"value":DG.switches['#"+name].getValue()},function(data){
 										//alert($('#on-off-switch').attr("cod_number"));
 										alert(data);
 									})

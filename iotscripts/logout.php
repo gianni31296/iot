@@ -78,7 +78,7 @@
 			
 			<div class="alert alert-info alert-dismissible">
                 <h4><i class="icon fa fa-check"></i> Logout eseguito con successo!</h4>
-				&emsp;&emsp;&nbsp;Arrivederci <?php echo $_SESSION["login_nome"];?>!
+				&emsp;&emsp;&nbsp;Arrivederci <?php echo $_SESSION['login_nome'];?>!
 				Sarai reindirizzato alla pagina di login tra &nbsp;<element id="seconds">5</element>
 				<div id="foo" style="display: none;">
 				</div>
@@ -131,8 +131,8 @@
 </body>
 </html>
 <?php 
-	unset($_SESSION["login"]);
-	unset($_SESSION["login_nome"]);
-	unset($_SESSION["login_cognome"]);
-	unset($_SESSION["tipo_utente"]);
+	unset($_SESSION['login']);
+	unset($_SESSION['login_nome']);
+	unset($_SESSION['login_cognome']);
+	unset($_SESSION['tipo_utente']);
 ?>
