@@ -3,18 +3,22 @@
 session_start();
 require 'dbconnect.php';
 $conn=new mysqli($host, $user, $pwd, $db);
+$ref = $_POST['prov'];
 $marca = filter_input(INPUT_POST,"marca");
 $cod = filter_input(INPUT_POST,"cliente");
-$num_campi=$_SESSION['campi'];
-$lun=Array();
-$descr=Array();
-$tipo=Array();
-$inizio=Array(1);
-for ($j=1; $j<=$num_campi; $j++){
-	$lun[$j-1]=filter_input(INPUT_POST,'lunghezza'.$j);
-	$descr[$j-1]=filter_input(INPUT_POST,'descrizione'.$j);
-	$tipo[$j-1]=filter_input(INPUT_POST,'tipo'.$j);
-	if($j!=$num_campi)$inizio[$j]=$inizio[$j-1] + $lun[$j-1];
+
+if($ref=='nuovo'){
+	$num_campi=$_GET['campi'];
+	$lun=Array();
+	$descr=Array();
+	$tipo=Array();
+	$inizio=Array(1);
+	for ($j=1; $j<=$num_campi; $j++){
+		$lun[$j-1]=filter_input(INPUT_POST,'lunghezza'.$j);
+		$descr[$j-1]=filter_input(INPUT_POST,'descrizione'.$j);
+		$tipo[$j-1]=filter_input(INPUT_POST,'tipo'.$j);
+		if($j!=$num_campi)$inizio[$j]=$inizio[$j-1] + $lun[$j-1];
+	}
 }
 /*
 print_r ($lun);
@@ -22,6 +26,7 @@ print_r ($descr);
 print_r ($tipo);
 print_r ($inizio);
 */
+
 ?>
 
 <html style="height: auto; min-height: 100%;"><head>
@@ -197,9 +202,8 @@ desired effect
 				  </span>
 			  </a>
 			  <ul class="treeview-menu" style="display: none;">
-				<li><a href="inserisci_sensore.php?campi=1">Inserisci nuovo sensore</a></li>
+				<li><a href="inserisci_sensore.php">Inserisci nuovo sensore</a></li>
 				<li><a href="elimina_sensore.php">Elimina sensore</a></li>
-				<li><a href="inserisci_tipo.php">Inserisci nuovo tipo di sensore</a></li>
 			  </ul>
 			</li>
 			
@@ -230,9 +234,11 @@ desired effect
 					if ($conn->query($sql)==TRUE){ 
 						$flag1=1; 
 						$cod_s = $conn->insert_id;
-						for ($j=1; $j<=$num_campi; $j++){
-							$sql1 = "INSERT INTO sensori_tipi VALUES ('" . $cod_s . "','" . $tipo[$j-1] . "','" . $inizio[$j-1] . "','" . $lun[$j-1] . "',NULL,'" . $descr[$j-1] . "')";
-							if ($conn->query($sql1)==FALSE) $flag=1;
+						if ($ref=='nuovo'){
+							for ($j=1; $j<=$num_campi; $j++){
+								$sql1 = "INSERT INTO sensori_tipi VALUES ('" . $cod_s . "','" . $tipo[$j-1] . "','" . $inizio[$j-1] . "','" . $lun[$j-1] . "',NULL,'" . $descr[$j-1] . "')";
+								if ($conn->query($sql1)==FALSE) $flag=1;
+							}
 						}
 					}
 					if ($flag1==1 AND $flag==0){
@@ -278,4 +284,4 @@ desired effect
      Both of these plugins are recommended to enhance the
      user experience. -->
 
-</body></html*/?>
+</body></html>
