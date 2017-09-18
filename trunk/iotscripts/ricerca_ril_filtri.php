@@ -217,33 +217,6 @@ desired effect
             </form>
           </div></div>
 		</section>
-		
-		<section class="content">
-			<div class="col-sm-6"><div class="box box-info" <?php if($_SESSION["tipo_utente"]=="t") echo "style=\"border-top-color:#f38412;\"";?>>
-            <div class="box-header with-border">
-              <h3 class="box-title">Ricerca per ???</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form class="form-horizontal" method="post" action="ricerca_ril_cod.php">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="codice" class="col-sm-2 control-label">Codice</label>
-
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="codice" name="cod" placeholder="Cerca ...">
-                  </div>
-                </div>
-              </div>
-              <!-- /.box-body -->
-              <div class="box-footer">
-                <button type="submit" class="btn btn-default">Cancella</button>
-                <button type="submit" class="btn btn-info pull-right" <?php if($_SESSION["tipo_utente"]=="t") echo "style=\"background-color:#f38412; border-color:#f38412;\"";?>>Cerca</button>
-              </div>
-              <!-- /.box-footer -->
-            </form>
-          </div></div>
-		</section>
     </div>
   </div>
   <!-- /.content-wrapper -->

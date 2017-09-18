@@ -2,100 +2,15 @@
 
 	session_start();
 	require 'dbconnect.php';
-	$_SESSION['login']=1;
 
 	$conn=new mysqli($host, $user, $pwd, $db);
-
+	
 	// Check connection
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 	}
-	$no_ril=0;
-	$sensore = filter_input(INPUT_GET,'sensore');
-	/*$inizio=0;
-	$num_righe=25;
-	$res=$conn->query("select  count(*) as cnt from sensori_tipi where cod_sensore_rt=".$conn->escape_string($sensore));
-	$data_num_colonne=$res->fetch_assoc();
-	$num_colonne=$data_num_colonne["cnt"];
-*/	
-	$stmt = $conn->prepare("
-	select codRilevazione,rilevazioni.erroreR as errore,
-	 if(tipo_dato='intero' or tipo_dato='decimale',
-		convert(substr(stringa,inizio,lunghezza),decimal),
-		if(tipo_dato='data',
-			date_format(convert(substr(stringa,inizio,lunghezza),date),'%d/%m/%Y'),
-			if(tipo_dato='ora',
-				convert(substr(stringa,inizio,lunghezza),time),
-				substr(stringa,inizio,lunghezza)
-			)
-		)
-	 ) 
-	 dato,sensori_tipi.descrizione_t,rilevazioni.descrizione from sensori_tipi 
-	 join rilevazioni on rilevazioni.sensoreR=sensori_tipi.cod_sensore_rt
-	 join tipi on tipi.cod_tipo=sensori_tipi.cod_tipo_rt 
-	 join sensori on sensori.codsensore=sensori_tipi.cod_sensore_rt
-	 left join errori on rilevazioni.erroreR=errori.codErrore
-	 where sensori.clienteS= ? 
-	 and rilevazioni.sensoreR= ".$sensore. "
-	 and sensori_tipi.cod_sensore_rt= ".$sensore. "
-	 and rilevazioni.stato!=0
-	 order by codRilevazione");
-	$stmt->bind_param("d",$_SESSION["login"]);
-	$stmt->execute();
-	$stmt->store_result();
-	$stmt->bind_result($cod,$e,$a,$b,$c);
-	$i=0;
-	$numero_dati=$stmt->num_rows;
-
-	//$cols= Array( $numero_dati);
-	$headers=Array();
 	
-	if ($numero_dati>0){
-		$xml = new SimpleXMLElement('<xml/>');
-
-		while($stmt->fetch()){
-			$cols[$cod][$b]=$a;
-			$cols[$cod]["descrizione"]=$c;
-			$headers[$b]=$b;
-			$codici[$cod]=$cod;
-		}
-		
-		if(count($headers)>0){
-		
-		$headers["descrizione"]="descrizione";
-			
-			foreach($headers as $header){
-			
-				foreach($cols as $k=>$v){
-
-					$num=0;
-					$ril = $xml->addChild('rilevazione');
-					foreach($headers as $header){
-						
-						if($num==0){
-							$ril->addChild('codice', $codici[$k]);
-							$num++;
-						}
-						if($header=='errore' AND $cols[$k]['errore']>0){
-							$ril->addChild('errore', $e[$k]);
-						} else {
-							$ril->addChild($header, $cols[$k][$header]);
-						}
-						
-					}
-				}
-			}
-		} else echo "no";
-	 
-		//Header('Content-type: text/xml');
-		//print($xml->asXML());
-		if(file_exists("rilevazioni_s". $sensore . ".xml")) unlink("rilevazioni_s". $sensore . ".xml");
-		$f=fopen("rilevazioni_s". $sensore . ".xml","w");
-		fwrite($f,$xml->asXML());
-		fflush($f);
-		fclose($f);
-		
-	} else $no_ril=1;	
+	$sensore = filter_input(INPUT_GET,'sensore');
 ?>
 
 <html style="height: auto; min-height: 100%;"><head>
@@ -287,25 +202,37 @@ desired effect
   <div class="content-wrapper" style="min-height: 754px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Esporta XML</h1>
+      <h1>Esporta dati via mail</h1>
     </section>
 	<!-- Main content -->
 	<div class="content">
 		
 		<section class="content">
-			<center>
-                <?php if(file_exists("rilevazioni_s". $sensore . ".xml")) echo 
-				'<div class="alert alert-success alert-dismissible">'.
-				'<font size="6"><i class="icon fa fa-check"></i>Il tuo file è pronto!</font>&emsp;&emsp;'.
-				'<a class="btn btn-app" href="rilevazioni.xml" download target=_blank style="color:black">'.
-                '<i class="fa fa-save"></i> Esporta'.
-				'</a>'.
-				'</div>';
-				 else echo '<div class="alert alert-danger alert-dismissible">'.
-				 '<font size="6"><i class="icon fa fa-times"></i>Errore nella creazione del file!</font>'. ($no_ril==1 ? '<br><font size="4">Non ci sono rilevazioni relative al sensore inserito</font>' : '') . 
-				 '</div>';
-				?>
-              </center>
+            
+			<div class="col-sm-6"><div class="box box-info" <?php if($_SESSION["tipo_utente"]=="t") echo "style=\"border-top-color:#f38412;\"";?>>
+            <div class="box-header with-border">
+              <h3 class="box-title">Destinatario</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" method="post">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="codice" class="col-sm-2 control-label">Email</label>
+
+                  <div class="col-sm-10">
+                    <input type="email" class="form-control" name="destinatario" id="inputEmail3" placeholder="Inserisci...">
+                  </div>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="submit" class="btn btn-default">Cancella</button>
+                <button type="submit" class="btn btn-info pull-right" <?php if($_SESSION["tipo_utente"]=="t") echo "style=\"background-color:#f38412; border-color:#f38412;\"";?>>Invia</button>
+              </div>
+              <!-- /.box-footer -->
+            </form>
+          </div></div>
 		</section>
     </div>
   </div>
@@ -321,27 +248,7 @@ desired effect
 <!-- ./wrapper -->
 
 <!-- REQUIRED JS SCRIPTS -->
-<script>
-							new DG.OnOffSwitch({
-								el: '#on-off-switch',
-								textOn: 'Visibile',
-								textOff: 'Nascosto',
-								listener:function(name, checked){
-									//alert("CIAO");
-									$.post("utente.php",{"cod":$('#on-off-switch').attr("cod_number")},function(data){
-										alert($('#on-off-switch').attr("cod_number"));
-									})
-								}
-							});
 
-							$("document").ready(function(){
-								$("#on-off-switch").click(function(){
-									//$.get("utente.php",{"q":"GIANNI MASTROVITO"},function(data){$("#CIAONE").html(data);})
-									alert("CIAO");
-								});
-							});
-
-							</script>
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
