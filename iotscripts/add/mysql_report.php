@@ -8,7 +8,7 @@
 
 
 // Include the FPDF library. Alter for your system
-require('fpdf.php');
+require 'fpdf.php';
 
 class PDF extends FPDF {
 

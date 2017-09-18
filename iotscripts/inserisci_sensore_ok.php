@@ -9,10 +9,10 @@ $cod = filter_input(INPUT_POST,"cliente");
 
 if($ref=='nuovo'){
 	$num_campi=$_GET['campi'];
-	$lun=Array();
-	$descr=Array();
-	$tipo=Array();
-	$inizio=Array(1);
+	$lun=array();
+	$descr=array();
+	$tipo=array();
+	$inizio=array(1);
 	for ($j=1; $j<=$num_campi; $j++){
 		$lun[$j-1]=filter_input(INPUT_POST,'lunghezza'.$j);
 		$descr[$j-1]=filter_input(INPUT_POST,'descrizione'.$j);
@@ -231,17 +231,17 @@ desired effect
 				$flag1=0;
 				if (isset($_SESSION['fatto'])) {
 					$sql = "INSERT INTO sensori (marca,clienteS) VALUES ('" . $marca . "','" . $cod . "')";
-					if ($conn->query($sql)==TRUE){ 
+					if ($conn->query($sql)==true){ 
 						$flag1=1; 
 						$cod_s = $conn->insert_id;
 						if ($ref=='nuovo'){
 							for ($j=1; $j<=$num_campi; $j++){
 								$sql1 = "INSERT INTO sensori_tipi VALUES ('" . $cod_s . "','" . $tipo[$j-1] . "','" . $inizio[$j-1] . "','" . $lun[$j-1] . "',NULL,'" . $descr[$j-1] . "')";
-								if ($conn->query($sql1)==FALSE) $flag=1;
+								if ($conn->query($sql1)==false) $flag=1;
 							}
 						}
 					}
-					if ($flag1==1 AND $flag==0){
+					if ($flag1==1 and $flag==0){
 						unset($_SESSION['fatto']);
 						echo "<h4><i class=\"icon fa fa-check\"></i> Il sensore è stato inserito correttamente con codice " . $cod_s . ".</h4>";
 					}else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Nessun sensore inserito." . $conn->error . "</h4><br>";

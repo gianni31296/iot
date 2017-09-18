@@ -5,11 +5,6 @@ require 'dbconnect.php';
 
 $connessione=new mysqli($host, $user, $pwd, $db);
 
-// Check connection
-if ($connessione->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
 $esito = 0;
 $email = filter_input(INPUT_POST,"user");
 $psw = filter_input(INPUT_POST,"psw");

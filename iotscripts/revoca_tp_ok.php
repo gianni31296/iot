@@ -213,7 +213,7 @@ desired effect
 				<?php 
 				if (isset($_SESSION['fatto'])) {
 					$sql = "DELETE FROM terzeparti WHERE codTP=" . $cod;
-					if ($conn->query($sql)==TRUE){
+					if ($conn->query($sql)==true){
 						unset($_SESSION['fatto']);
 						echo "<h4><i class=\"icon fa fa-check\"></i> L'autorizzazione della terza parte ".$nome . " " . $cognome." è stata revocata con successo!</h4>";
 					}else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Nessuna autorizzazione revocata" . $conn->error . ".</h4><br>";

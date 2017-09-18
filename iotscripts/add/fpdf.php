@@ -1041,7 +1041,7 @@ protected function _dochecks()
 		$this->Error('mbstring overloading must be disabled');
 	// Ensure runtime magic quotes are disabled
 	if(get_magic_quotes_runtime())
-		@set_magic_quotes_runtime(0);
+		set_magic_quotes_runtime(0);
 }
 
 protected function _checkoutput()
@@ -1140,7 +1140,7 @@ protected function _loadfont($font)
 	// Load a font definition file from the font directory
 	if(strpos($font,'/')!==false || strpos($font,"\\")!==false)
 		$this->Error('Incorrect font definition file name: '.$font);
-	include($this->fontpath.$font);
+	include $this->fontpath.$font;
 	if(!isset($name))
 		$this->Error('Could not include font definition file');
 	if(isset($enc))
@@ -1822,7 +1822,7 @@ protected function _putresources()
 protected function _putinfo()
 {
 	$this->metadata['Producer'] = 'FPDF '.FPDF_VERSION;
-	$this->metadata['CreationDate'] = 'D:'.@date('YmdHis');
+	$this->metadata['CreationDate'] = 'D:'.date('YmdHis');
 	foreach($this->metadata as $key=>$value)
 		$this->_put('/'.$key.' '.$this->_textstring($value));
 }

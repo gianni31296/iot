@@ -214,7 +214,7 @@ desired effect
 				<?php 
 				if (isset($_SESSION['fatto'])) {
 					$sql = "INSERT INTO clienti (nomeCliente,cognomeCliente,sessoCliente,indirizzoCliente,residenzaCliente,emailCliente,telefonoCliente,passwordCliente) VALUES ('" . $nome . "','" . $cognome . "','" . $sesso . "','" . $indirizzo . "','" . $residenza . "','" . $email . "','" . $telefono . "','" . $password . "')";
-					if ($conn->query($sql)==TRUE){
+					if ($conn->query($sql)==true){
 						unset($_SESSION['fatto']);
 						echo "<h4><i class=\"icon fa fa-check\"></i> Il cliente ".$nome . " " . $cognome." è stato inserito con successo!</h4>";
 					}else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Nessun cliente inserito" . $conn->error . ".</h4><br>";

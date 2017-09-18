@@ -253,6 +253,8 @@ desired effect
 									echo "<td><a href=\"esporta_mail.php?sensore=" . $row["codSensore"] . "\"><center><span class=\"glyphicon glyphicon glyphicon-envelope\" style=\"color:light-blue\"></span></center></a></td></tr>";
 								}
 								break;
+							default:
+								break;
 						}						
 					?>
 					

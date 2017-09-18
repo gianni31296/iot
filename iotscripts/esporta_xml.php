@@ -6,10 +6,6 @@
 
 	$conn=new mysqli($host, $user, $pwd, $db);
 
-	// Check connection
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	}
 	$no_ril=0;
 	$sensore = filter_input(INPUT_GET,'sensore');
 	/*$inizio=0;
@@ -48,7 +44,7 @@
 	$numero_dati=$stmt->num_rows;
 
 	//$cols= Array( $numero_dati);
-	$headers=Array();
+	$headers=array();
 	
 	if ($numero_dati>0){
 		$xml = new SimpleXMLElement('<xml/>');
@@ -76,7 +72,7 @@
 							$ril->addChild('codice', $codici[$k]);
 							$num++;
 						}
-						if($header=='errore' AND $cols[$k]['errore']>0){
+						if($header=='errore' and $cols[$k]['errore']>0){
 							$ril->addChild('errore', $e[$k]);
 						} else {
 							$ril->addChild($header, $cols[$k][$header]);
