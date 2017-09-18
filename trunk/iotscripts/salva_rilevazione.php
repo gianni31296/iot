@@ -7,7 +7,7 @@ for ($i=0;$i<1000;$i++){
 }
 */
 
-$stringhe=Array(
+$stringhe=array(
 	"00000000001:0000120170101000000000:si è verificato un errore",
 	"00000000001:0000220170101010000000:si è verificato un errore",
 	"00000000001:0000320170101020000000:si è verificato un errore",
@@ -29,10 +29,6 @@ include "dbconnect.php";
 
 $conn=new mysqli($host, $user, $pwd, $db);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 $conn->query("truncate rilevazioni;");
 
 for($i=0;$i<count($stringhe);$i++){
@@ -46,7 +42,7 @@ $sensoreR = intval($sezioni[0]);
 $stringa = $sezioni[1];
 $descrizione = $sezioni[2];
 $errore = intval(substr($stringa,0,5));
-if ($errore==0) $errore=NULL;
+if ($errore==0) $errore=null;
 
 //$sensoriR=intval(substr($stringa,0,5));
 

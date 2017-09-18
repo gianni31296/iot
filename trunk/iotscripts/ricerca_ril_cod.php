@@ -70,13 +70,13 @@ desired effect
   <header class="main-header">
 
     <!-- Logo -->
-    <?php if ($_SESSION["tipo_utente"]=="c") {echo "
+    <?php if ($_SESSION['tipo_utente']=='c') {echo "
 		<div class=\"logo\">
 		  <!-- mini logo for sidebar mini 50x50 pixels -->
 		  <span class=\"logo-mini\"><b>I</b>oT</span>
 		  <!-- logo for regular state and mobile devices -->
 		  <span class=\"logo-lg\"><b>IoT</b> Inc.</span>
-		</div>";} elseif ($_SESSION["tipo_utente"]=="t"){ echo "
+		</div>";} elseif ($_SESSION['tipo_utente']=='t'){ echo "
 		<div class=\"logo\" style=\"background-color: #f38412;\">
 		  <!-- mini logo for sidebar mini 50x50 pixels -->
 		  <span class=\"logo-mini\"><b>I</b>oT</span>
@@ -86,8 +86,8 @@ desired effect
 	?>
 	
     <!-- Header Navbar -->
-    <?php if ($_SESSION["tipo_utente"]=="c") {echo "
-		<nav class=\"navbar navbar-static-top\" role=\"navigation\">";} elseif ($_SESSION["tipo_utente"]=="t") {echo "
+    <?php if ($_SESSION['tipo_utente']=='c') {echo "
+		<nav class=\"navbar navbar-static-top\" role=\"navigation\">";} elseif ($_SESSION['tipo_utente']=='t') {echo "
 		<nav class=\"navbar navbar-static-top\" role=\"navigation\" style=\"background-color: #f38412;\">";}
 	?>
       
@@ -111,7 +111,7 @@ desired effect
               <li class="user-header">
                 <img src="../dist/img/avatar5.png" class="img-circle" alt="User Image">
                 <p>
-                  <?php echo $_SESSION["login_nome"] . " " . $_SESSION["login_cognome"];?> - <?php if ($_SESSION["tipo_utente"]=="c") {echo "cliente";} elseif ($_SESSION["tipo_utente"]=="t") {echo "terza parte";} ?>
+                  <?php echo $_SESSION['login_nome'] . " " . $_SESSION['login_cognome'];?> - <?php if ($_SESSION['tipo_utente']=='c') {echo "cliente";} elseif ($_SESSION['tipo_utente']=='t') {echo "terza parte";} ?>
                 </p>
               </li>
               
@@ -140,7 +140,7 @@ desired effect
           <img src="../dist/img/avatar5.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p><?php echo $_SESSION["login_nome"] . " " . $_SESSION["login_cognome"];?></p>
+          <p><?php echo $_SESSION['login_nome'] . " " . $_SESSION['login_cognome'];?></p>
           <!-- Status -->
           
         </div>
@@ -164,12 +164,12 @@ desired effect
 			</form>
 		</li>
         <li><a href="visualizza_rilevazioni.php?option=0"><i class="fa fa-link"></i> <span>Visualizza rilevazioni</span></a></li>
-        <?php if ($_SESSION["tipo_utente"]=="c") echo "<li><a href=\"visualizza_rilevazioni.php?option=1\"><i class=\"fa fa-link\"></i> <span>Stato rilevazioni</span></a></li>";?>
+        <?php if ($_SESSION['tipo_utente']=='c') echo "<li><a href=\"visualizza_rilevazioni.php?option=1\"><i class=\"fa fa-link\"></i> <span>Stato rilevazioni</span></a></li>";?>
 		
-		<?php if ($_SESSION["tipo_utente"]=="c") echo "<li><a href=\"visualizza_rilevazioni.php?option=2\"><i class=\"fa fa-link\"></i> <span>Esporta dati in XML</span></a></li>";
-			elseif ($_SESSION["tipo_utente"]=="t") echo "<li><a href=\"visualizza_rilevazioni.php?option=3\"><i class=\"fa fa-link\"></i> <span>Esporta dati via mail</span></a></li>"; ?>
+		<?php if ($_SESSION['tipo_utente']=='c') echo "<li><a href=\"visualizza_rilevazioni.php?option=2\"><i class=\"fa fa-link\"></i> <span>Esporta dati in XML</span></a></li>";
+			elseif ($_SESSION['tipo_utente']=='t') echo "<li><a href=\"visualizza_rilevazioni.php?option=3\"><i class=\"fa fa-link\"></i> <span>Esporta dati via mail</span></a></li>"; ?>
 			
-        <?php if ($_SESSION["tipo_utente"]=="c") echo "
+        <?php if ($_SESSION['tipo_utente']=='c') echo "
 			<li class=\"treeview\">
 			  <a href=\"#\"><i class=\"fa fa-link\"></i> <span>Terze parti</span>
 				<span class=\"pull-right-container\">
@@ -217,7 +217,7 @@ desired effect
 						$num_righe=25;
 						$res=$conn->query("select  count(*) as cnt from sensori_tipi where cod_sensore_rt=".$conn->escape_string($cod_sensore));
 						$data_num_colonne=$res->fetch_assoc();
-						$num_colonne=$data_num_colonne["cnt"];
+						$num_colonne=$data_num_colonne['cnt'];
 						
 						$stmt = $conn->prepare("
 						select codRilevazione,rilevazioni.erroreR as errore,
@@ -239,8 +239,8 @@ desired effect
 						 where sensori.clienteS=?
 						 and codRilevazione=".$cod."
 						 and sensori_tipi.cod_sensore_rt=rilevazioni.sensoreR");
-						if (empty($cod)==FALSE){
-							$stmt->bind_param("d",$_SESSION["login"]);
+						if (empty($cod)==false){
+							$stmt->bind_param("d",$_SESSION['login']);
 							$stmt->execute();
 							$stmt->store_result();
 							$stmt->bind_result($cod, $e, $a, $b, $c, $d);
@@ -250,22 +250,22 @@ desired effect
 							$max_righe=10;
 							$inizio_righe=0;
 							$conteggio_righe=0;
-							$headers=Array();
-							$cols=Array();
+							$headers=array();
+							$cols=array();
 							$xml = new SimpleXMLElement('<xml/>');
 							while($stmt->fetch() && $conteggio_righe<$max_righe){
 
 								$cols[$cod][$b]=$a;
-								$cols[$cod]["descrizione"]=$c;
-								$cols[$cod]["stato"]=$d;
+								$cols[$cod]['descrizione']=$c;
+								$cols[$cod]['stato']=$d;
 								$headers[$b]=$b;
 								$codici[$cod]=$cod;
 								
 							}
 
 							if(count($headers)>0){
-								$headers["descrizione"]="descrizione";
-								$headers["stato"]="stato";						
+								$headers['descrizione']="descrizione";
+								$headers['stato']="stato";						
 								echo "<tr role=\"row\" class=\"odd\">";
 								echo "<th>";
 									echo "codice";
@@ -298,15 +298,15 @@ desired effect
 									$num++;
 									}
 									echo "<td>";
-									if ($header=='errore' AND $cols[$k]['errore']==0) echo "-";
-									else if($header=='errore' AND $cols[$k]['errore']>0){$ril->addChild('errore', $e[$k]); echo "<a href=\"errore.php?cod=".$codici[$k]."\">".$cols[$k][$header]."</a>";}
-									if ($header=='stato' AND $option==1) {
+									if ($header=='errore' and $cols[$k]['errore']==0) echo "-";
+									else if($header=='errore' and $cols[$k]['errore']>0){$ril->addChild('errore', $e[$k]); echo "<a href=\"errore.php?cod=".$codici[$k]."\">".$cols[$k][$header]."</a>";}
+									if ($header=='stato' and $option==1) {
 											$statocheck="";
 											//print_r( $cols[$k]);
 											if ($cols[$k]['stato']==1) $statocheck="checked";
 											echo "<center><input type=\"checkbox\" class=\"on-off-switch\" id=\"switch".$k."\" name=\"switch".$k."\" cod_number=12 $statocheck></center>"; 
 									}
-									else if ($header=='stato' AND ($option==0 OR $option==2 OR $option==3)) { if ($cols[$k]['stato']==0) echo "<center>nascosta</center>"; else echo "<center>visibile</center>"; }
+									else if ($header=='stato' and ($option==0 or $option==2 or $option==3)) { if ($cols[$k]['stato']==0) echo "<center>nascosta</center>"; else echo "<center>visibile</center>"; }
 									else if ($header!='errore'){$ril->addChild($header, $cols[$k][$header]); echo $cols[$k][$header] ;}
 									echo "</td>";
 									
@@ -333,7 +333,7 @@ desired effect
 			
 			
 			<?php
-				if(file_exists("rilevazione_".$cod.".xml")) unlink("rilevazione_".$cod.".xml");
+				if(file_exists('rilevazione_'.$cod.'.xml')) unlink('rilevazione_'.$cod.'.xml');
 				$f=fopen("rilevazione_".$cod.".xml","w");
 				fwrite($f,$xml->asXML());
 				fflush($f);

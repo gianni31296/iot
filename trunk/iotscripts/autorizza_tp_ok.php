@@ -219,7 +219,7 @@ desired effect
 				<?php 
 				if (isset($_SESSION['fatto'])) {
 					$sql = "INSERT INTO terzeparti (nomeTP,cognomeTP,sessoTP,indirizzoTP,residenzaTP,emailTP,telefonoTP,passwordTP,clienteTP) VALUES ('" . $nome . "','" . $cognome . "','" . $sesso . "','" . $indirizzo . "','" . $residenza . "','" . $email . "','" . $telefono . "','" . $password . "','" . $_SESSION["login"] . "')";
-					if ($conn->query($sql)==TRUE){
+					if ($conn->query($sql)==true){
 						unset($_SESSION['fatto']);
 						echo "<h4><i class=\"icon fa fa-check\"></i> L'autorizzazione alla terza parte ".$nome . " " . $cognome." è stata concessa!</h4>";
 					}else echo "<h4><i class=\"icon fa fa-times\"></i>Errore! Nessuna terza parte autorizzata" . $conn->error . ".</h4><br>";

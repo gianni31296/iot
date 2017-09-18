@@ -198,7 +198,7 @@ desired effect
 
 						$cod=filter_input(INPUT_POST,"cod");
 						$stmt=$conn->query("SELECT codCliente, nomeCliente, cognomeCliente, sessoCliente, indirizzoCliente, residenzaCliente, emailCliente, telefonoCliente FROM clienti WHERE codCliente=" . $cod);
-						if (empty($cod)==FALSE){
+						if (empty($cod)==false){
 							if(($stmt->num_rows)>0 ){
 								$row = $stmt->fetch_assoc();
 								echo "<tr><th>Codice</th><th>Nome</th><th>Cognome</th><th>Sesso</th><th>Indirizzo</th><th>Residenza</th><th>Email</th><th>Telefono</th></tr>";

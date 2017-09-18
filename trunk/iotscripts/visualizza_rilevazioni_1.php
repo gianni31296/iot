@@ -248,7 +248,7 @@ desired effect
 						$max_righe=10;
 						$inizio_righe=0;
 						$conteggio_righe=0;
-						$headers=Array();
+						$headers=array();
 						while($stmt->fetch() && $conteggio_righe<$max_righe){
 
 							$cols[$cod][$b]=$a;
@@ -284,6 +284,8 @@ desired effect
 								case 3:
 									echo "<th><center>Mail</center></th>";
 									break;
+								default:
+									break;
 							}
 						echo "</tr>";
 						
@@ -300,8 +302,8 @@ desired effect
 								$num++;
 								}
 								echo "<td>";
-								if ($header=='errore' AND $cols[$k]['errore']==0) echo "-";
-								else if($header=='errore' AND $cols[$k]['errore']>0) echo "<a href=\"errore.php?cod=".$codici[$k]."\">".$cols[$k][$header]."</a>";
+								if ($header=='errore' and $cols[$k]['errore']==0) echo "-";
+								else if($header=='errore' and $cols[$k]['errore']>0) echo "<a href=\"errore.php?cod=".$codici[$k]."\">".$cols[$k][$header]."</a>";
 								else  {
 									
 									if($header=="stato" && $option==1) {

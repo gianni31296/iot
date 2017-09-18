@@ -205,7 +205,7 @@ desired effect
 				<?php 
 				if (isset($_SESSION['fatto'])) {
 					$sql = "DELETE FROM sensori WHERE codSensore=" . $cod;					
-					if ($conn->query($sql)==TRUE){
+					if ($conn->query($sql)==true){
 						unset($_SESSION['fatto']);
 						echo "<h4><i class=\"icon fa fa-check\"></i> Il sensore con codice ".$cod . " è stato eliminato con successo!</h4>";
 					}else echo "<h4><i class=\"icon fa fa-times\">Errore! Nessun sensore eliminato" . $conn->error . ".</h4><br>";

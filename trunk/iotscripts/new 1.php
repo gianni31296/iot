@@ -9,7 +9,7 @@
 	define('FPDF_FONTPATH','./font/');
 	//questo file e la cartella font si trovano nella stessa directory
 	//require 'add/fpdf.php';
-	require('add/mysql_report.php');
+	require 'add/mysql_report.php';
 	// crea l'istanza del documento
 	//$pdf = new fpdf();
 	$pdf = new PDF('L','pt','A3'); 
