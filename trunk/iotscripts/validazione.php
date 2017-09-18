@@ -21,18 +21,18 @@ $stmt->execute();
 if ($tipo=="c") $stmt->bind_result($codUtente,$nomeUtente, $cognomeUtente, $sesso, $accesso);
 	else  $stmt->bind_result($codUtente,$nomeUtente, $cognomeUtente, $cliente_rel, $sesso, $accesso);
 if($stmt->fetch()){
-	$_SESSION["login"]=$codUtente;
-	$_SESSION["login_nome"]=$nomeUtente;
-    $_SESSION["login_cognome"]=$cognomeUtente;
-	$_SESSION["tipo_utente"]=$tipo;
-	$_SESSION["sesso"]=$sesso;
-	if ($tipo=="t") $_SESSION["cliente_rel"]=$cliente_rel;
-	unset($_SESSION["errore"]);
-	$_SESSION["accesso"]=$accesso;
+	$_SESSION['login']=$codUtente;
+	$_SESSION['login_nome']=$nomeUtente;
+    $_SESSION['login_cognome']=$cognomeUtente;
+	$_SESSION['tipo_utente']=$tipo;
+	$_SESSION['sesso']=$sesso;
+	if ($tipo=="t") $_SESSION['cliente_rel']=$cliente_rel;
+	unset($_SESSION['errore']);
+	$_SESSION['accesso']=$accesso;
 	header("Location: utente.php");
 }
 else{
-	$_SESSION["errore"]="Dati inseriti non corretti!";
+	$_SESSION['errore']="Dati inseriti non corretti!";
     header("Location: ../");
 }
 

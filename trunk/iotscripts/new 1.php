@@ -55,7 +55,7 @@
 	 (($option==0 or $option==2 or $option==3) ? "and rilevazioni.stato!=0" : "") ."
 	 order by codRilevazione");
 	echo $conn->error;
-	$stmt->bind_param("d",$_SESSION["login"]);
+	$stmt->bind_param("d",$_SESSION['login']);
 	$stmt->execute();
 	$stmt->store_result();
 	$stmt->bind_result($cod,$a, $b,$c,$stato);
@@ -76,8 +76,8 @@
 	while($stmt->fetch() && $conteggio_righe<$max_righe){
 
 		$cols[$cod][$b]=$a;
-		$cols[$cod]["descrizione"]=$c;
-		$cols[$cod]["stato"]=$stato;
+		$cols[$cod]['descrizione']=$c;
+		$cols[$cod]['stato']=$stato;
 		$headers[$b]=$b;
 		
 		$codici[$cod]=$cod;
@@ -86,7 +86,7 @@
 	
 	if(count($headers)>0){
 	
-	$headers["descrizione"]="descrizione";
+	$headers['descrizione']="descrizione";
 	echo "<tr role=\"row\" class=\"odd\">";
 		echo "<th>";
 			echo "Codice";
@@ -99,8 +99,8 @@
 		}
 		switch($option){
 			case 1:
-				$headers["stato"]="stato";
-				echo "<th><center>" . $headers["stato"] . "</center></th>";
+				$headers['stato']="stato";
+				echo "<th><center>" . $headers['stato'] . "</center></th>";
 				break;
 			case 2:
 				echo "<th><center>XML</center></th>";

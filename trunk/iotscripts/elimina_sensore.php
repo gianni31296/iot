@@ -210,15 +210,15 @@ desired effect
                 <tbody> 
 				
 					<?php 
-						$_SESSION["doc"]="elimina_sensore_ok.php";
+						$_SESSION['doc']="elimina_sensore_ok.php";
 						$stmt = $conn->query("SELECT codSensore, marca, nomeCliente, cognomeCliente FROM sensori, clienti WHERE clienteS=codCliente");
 						echo "<tr role=\"row\" class=\"odd\">";
 						echo "<th>Codice sensore</th><th>Marca</th><th>Cliente relativo</th><th><center>Elimina</center></th>";
 						$_SESSION['fatto']=1;
 						while($row = $stmt->fetch_assoc()){
 							echo "<tr role=\"row\" class=\"odd\">";
-							echo "<td>" . $row["codSensore"] . "</td><td>" . $row["marca"] . "</td><td>" . $row["nomeCliente"] . " " . $row["cognomeCliente"] . "</td>";
-							echo "<td><a href=\"#\" onclick=\"javascript:cancella('".$row["codSensore"]."')\"><center><span class=\"glyphicon glyphicon glyphicon-remove\" style=\"color:red\"></span></center></a></td></tr>";
+							echo "<td>" . $row['codSensore'] . "</td><td>" . $row['marca'] . "</td><td>" . $row['nomeCliente'] . " " . $row['cognomeCliente'] . "</td>";
+							echo "<td><a href=\"#\" onclick=\"javascript:cancella('".$row['codSensore']."')\"><center><span class=\"glyphicon glyphicon glyphicon-remove\" style=\"color:red\"></span></center></a></td></tr>";
 						}
 					?>
 			</tbody>

@@ -73,13 +73,13 @@ desired effect
   <header class="main-header">
 
     <!-- Logo -->
-    <?php if ($_SESSION["tipo_utente"]=="c") {echo "
+    <?php if ($_SESSION['tipo_utente']=='c') {echo "
 		<div class=\"logo\">
 		  <!-- mini logo for sidebar mini 50x50 pixels -->
 		  <span class=\"logo-mini\"><b>I</b>oT</span>
 		  <!-- logo for regular state and mobile devices -->
 		  <span class=\"logo-lg\"><b>IoT</b> Inc.</span>
-		</div>";} elseif ($_SESSION["tipo_utente"]=="t"){ echo "
+		</div>";} elseif ($_SESSION['tipo_utente']=='t'){ echo "
 		<div class=\"logo\" style=\"background-color: #f38412;\">
 		  <!-- mini logo for sidebar mini 50x50 pixels -->
 		  <span class=\"logo-mini\"><b>I</b>oT</span>
@@ -89,8 +89,8 @@ desired effect
 	?>
 	
     <!-- Header Navbar -->
-    <?php if ($_SESSION["tipo_utente"]=="c") {echo "
-		<nav class=\"navbar navbar-static-top\" role=\"navigation\">";} elseif ($_SESSION["tipo_utente"]=="t") {echo "
+    <?php if ($_SESSION['tipo_utente']=='c') {echo "
+		<nav class=\"navbar navbar-static-top\" role=\"navigation\">";} elseif ($_SESSION['tipo_utente']=='t') {echo "
 		<nav class=\"navbar navbar-static-top\" role=\"navigation\" style=\"background-color: #f38412;\">";}
 	?>
       
@@ -107,14 +107,14 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="../dist/img/avatar5.png" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php echo $_SESSION["login_nome"] . " " . $_SESSION["login_cognome"];?></span>
+              <span class="hidden-xs"><?php echo $_SESSION['login_nome'] . " " . $_SESSION['login_cognome'];?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
                 <img src="../dist/img/avatar5.png" class="img-circle" alt="User Image">
                 <p>
-                  <?php echo $_SESSION["login_nome"] . " " . $_SESSION["login_cognome"];?> - <?php if ($_SESSION["tipo_utente"]=="c") {echo "cliente";} elseif ($_SESSION["tipo_utente"]=="t") {echo "terza parte";} ?>
+                  <?php echo $_SESSION['login_nome'] . " " . $_SESSION['login_cognome'];?> - <?php if ($_SESSION['tipo_utente']=='c') {echo "cliente";} elseif ($_SESSION['tipo_utente']=='t') {echo "terza parte";} ?>
                 </p>
               </li>
               
@@ -143,7 +143,7 @@ desired effect
           <img src="../dist/img/avatar5.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p><?php echo $_SESSION["login_nome"] . " " . $_SESSION["login_cognome"];?></p>
+          <p><?php echo $_SESSION['login_nome'] . " " . $_SESSION['login_cognome'];?></p>
           <!-- Status -->
           
         </div>
@@ -167,12 +167,12 @@ desired effect
 			</form>
 		</li>
         <li><a href="visualizza_rilevazioni.php?option=0"><i class="fa fa-link"></i> <span>Visualizza rilevazioni</span></a></li>
-        <?php if ($_SESSION["tipo_utente"]=="c") echo "<li><a href=\"visualizza_rilevazioni.php?option=1\"><i class=\"fa fa-link\"></i> <span>Stato rilevazioni</span></a></li>";?>
+        <?php if ($_SESSION['tipo_utente']=='c') echo "<li><a href=\"visualizza_rilevazioni.php?option=1\"><i class=\"fa fa-link\"></i> <span>Stato rilevazioni</span></a></li>";?>
 		
-		<?php if ($_SESSION["tipo_utente"]=="c") echo "<li><a href=\"visualizza_rilevazioni.php?option=2\"><i class=\"fa fa-link\"></i> <span>Esporta dati in XML</span></a></li>";
-			elseif ($_SESSION["tipo_utente"]=="t") echo "<li><a href=\"visualizza_rilevazioni.php?option=3\"><i class=\"fa fa-link\"></i> <span>Esporta dati via mail</span></a></li>"; ?>
+		<?php if ($_SESSION['tipo_utente']=='c') echo "<li><a href=\"visualizza_rilevazioni.php?option=2\"><i class=\"fa fa-link\"></i> <span>Esporta dati in XML</span></a></li>";
+			elseif ($_SESSION['tipo_utente']=='t') echo "<li><a href=\"visualizza_rilevazioni.php?option=3\"><i class=\"fa fa-link\"></i> <span>Esporta dati via mail</span></a></li>"; ?>
 			
-        <?php if ($_SESSION["tipo_utente"]=="c") echo "
+        <?php if ($_SESSION['tipo_utente']=='c') echo "
 			<li class=\"treeview\">
 			  <a href=\"#\"><i class=\"fa fa-link\"></i> <span>Terze parti</span>
 				<span class=\"pull-right-container\">
@@ -204,7 +204,7 @@ desired effect
 		
 		<section class="content">
             
-			<div class="col-sm-6"><div class="box box-info" <?php if($_SESSION["tipo_utente"]=="t") echo "style=\"border-top-color:#f38412;\"";?>>
+			<div class="col-sm-6"><div class="box box-info" <?php if($_SESSION['tipo_utente']=='t') echo "style=\"border-top-color:#f38412;\"";?>>
             <div class="box-header with-border">
               <h3 class="box-title">Destinatario</h3>
             </div>
@@ -223,7 +223,7 @@ desired effect
               <!-- /.box-body -->
               <div class="box-footer">
                 <button type="submit" class="btn btn-default">Cancella</button>
-                <button type="submit" class="btn btn-info pull-right" <?php if($_SESSION["tipo_utente"]=="t") echo "style=\"background-color:#f38412; border-color:#f38412;\"";?>>Invia</button>
+                <button type="submit" class="btn btn-info pull-right" <?php if($_SESSION['tipo_utente']=='t') echo "style=\"background-color:#f38412; border-color:#f38412;\"";?>>Invia</button>
               </div>
               <!-- /.box-footer -->
             </form>

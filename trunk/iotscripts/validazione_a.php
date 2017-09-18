@@ -16,11 +16,11 @@ $stmt->bind_param("ss", $email, $psw_inserita);
 $stmt->execute();
 $stmt->bind_result($codCliente,$nomeCliente, $cognomeCliente);
 if($user=="admin" and $psw_inserita==md5("admin")){
-	unset($_SESSION["errore"]);
+	unset($_SESSION['errore']);
 	header("Location: azienda.php");
 }
 else{
-	$_SESSION["errore"]="Nome utente e/o password non corretti!";
+	$_SESSION['errore']="Nome utente e/o password non corretti!";
     header("Location: ../index2.php");
 }
 

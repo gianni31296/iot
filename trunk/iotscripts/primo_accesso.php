@@ -90,13 +90,13 @@ desired effect
   <header class="main-header">
 
     <!-- Logo -->
-    <?php if ($_SESSION["tipo_utente"]=="c") {echo "
+    <?php if ($_SESSION['tipo_utente']=='c') {echo "
 		<div class=\"logo\">
 		  <!-- mini logo for sidebar mini 50x50 pixels -->
 		  <span class=\"logo-mini\"><b>I</b>oT</span>
 		  <!-- logo for regular state and mobile devices -->
 		  <span class=\"logo-lg\"><b>IoT</b> Inc.</span>
-		</div>";} elseif ($_SESSION["tipo_utente"]=="t"){ echo "
+		</div>";} elseif ($_SESSION['tipo_utente']=='t'){ echo "
 		<div class=\"logo\" style=\"background-color: #f38412;\">
 		  <!-- mini logo for sidebar mini 50x50 pixels -->
 		  <span class=\"logo-mini\"><b>I</b>oT</span>
@@ -106,8 +106,8 @@ desired effect
 	?>
 	
     <!-- Header Navbar -->
-    <?php if ($_SESSION["tipo_utente"]=="c") {echo "
-		<nav class=\"navbar navbar-static-top\" role=\"navigation\">";} elseif ($_SESSION["tipo_utente"]=="t") {echo "
+    <?php if ($_SESSION['tipo_utente']=='c') {echo "
+		<nav class=\"navbar navbar-static-top\" role=\"navigation\">";} elseif ($_SESSION['tipo_utente']=='t') {echo "
 		<nav class=\"navbar navbar-static-top\" role=\"navigation\" style=\"background-color: #f38412;\">";}
 	?>
       <!-- Sidebar toggle button-->
@@ -125,21 +125,21 @@ desired effect
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
               <!-- The user image in the navbar-->
               <?php
-			  if ($_SESSION["sesso"]=="m") echo "<img src=\"../dist/img/avatar5.png\" class=\"user-image\" alt=\"User Image\">";
+			  if ($_SESSION['sesso']=="m") echo "<img src=\"../dist/img/avatar5.png\" class=\"user-image\" alt=\"User Image\">";
 			  else echo "<img src=\"../dist/img/avatar3.png\" class=\"user-image\" alt=\"User Image\">";
 			  ?>
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php echo $_SESSION["login_nome"] . " " . $_SESSION["login_cognome"];?></span>
+              <span class="hidden-xs"><?php echo $_SESSION['login_nome'] . " " . $_SESSION['login_cognome'];?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
                 <?php
-				  if ($_SESSION["sesso"]=="m") echo "<img src=\"../dist/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">";
+				  if ($_SESSION['sesso']=="m") echo "<img src=\"../dist/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">";
 				  else echo "<img src=\"../dist/img/avatar3.png\" class=\"img-circle\" alt=\"User Image\">";
 				  ?>
                 <p>
-                  <?php echo $_SESSION["login_nome"] . " " . $_SESSION["login_cognome"];?> - <?php if ($_SESSION["tipo_utente"]=="c") {echo "cliente";} elseif ($_SESSION["tipo_utente"]=="t") {echo "terza parte";} ?>
+                  <?php echo $_SESSION['login_nome'] . " " . $_SESSION['login_cognome'];?> - <?php if ($_SESSION['tipo_utente']=='c') {echo "cliente";} elseif ($_SESSION['tipo_utente']=='t') {echo "terza parte";} ?>
                 </p>
               </li>
               
@@ -166,12 +166,12 @@ desired effect
       <div class="user-panel">
         <div class="pull-left image">
           <?php
-		  if ($_SESSION["sesso"]=="m") echo "<img src=\"../dist/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">";
+		  if ($_SESSION['sesso']=="m") echo "<img src=\"../dist/img/avatar5.png\" class=\"img-circle\" alt=\"User Image\">";
 		  else echo "<img src=\"../dist/img/avatar3.png\" class=\"img-circle\" alt=\"User Image\">";
 		  ?>
         </div>
         <div class="pull-left info">
-          <p><?php echo $_SESSION["login_nome"] . " " . $_SESSION["login_cognome"];?></p>
+          <p><?php echo $_SESSION['login_nome'] . " " . $_SESSION['login_cognome'];?></p>
           <!-- Status -->
           
         </div>
@@ -194,8 +194,8 @@ desired effect
     <!-- Content Header (Page header) -->
     <section class="content-header">
 	  <?php
-	  if ($_SESSION["sesso"]=="m")echo "<h1>Benvenuto&nbsp;" . $_SESSION["login_nome"] . "!</h1>";
-	  else {echo "<h1>Benvenuta&nbsp;" . $_SESSION["login_nome"] . "!</h1>";}
+	  if ($_SESSION['sesso']=="m")echo "<h1>Benvenuto&nbsp;" . $_SESSION['login_nome'] . "!</h1>";
+	  else {echo "<h1>Benvenuta&nbsp;" . $_SESSION['login_nome'] . "!</h1>";}
 	  ?>
 	  <h3>Solo un attimo... prima di iniziare cambia la tua password!</h3>
     </section>
@@ -204,9 +204,9 @@ desired effect
 		
 		<?php
 		    $message="";
-			if(isset($_POST["modificacliente"])){
-				if ($_SESSION["tipo_utente"]=="c")	$stmt=$conn->prepare("update clienti set passwordCliente=?,accessoCliente=0 where codCliente=?" );
-				elseif ($_SESSION["tipo_utente"]=="t") $stmt=$conn->prepare("update terzeparti set passwordTP=?,accessoTP=0 where codTP=?" );
+			if(isset($_POST['modificacliente'])){
+				if ($_SESSION['tipo_utente']=='c')	$stmt=$conn->prepare("update clienti set passwordCliente=?,accessoCliente=0 where codCliente=?" );
+				elseif ($_SESSION['tipo_utente']=='t') $stmt=$conn->prepare("update terzeparti set passwordTP=?,accessoTP=0 where codTP=?" );
 				
 				$password=md5(filter_input(INPUT_POST,"psw"));
 				//echo $nome."    ".$cod."...";
@@ -218,8 +218,8 @@ desired effect
 						  Sarai reindirizzato alla pagina iniziale tra &nbsp;";
 			}
 		
-			if ($_SESSION["tipo_utente"]=="c") $stmt=$conn->query("SELECT nomeCliente, cognomeCliente, sessoCliente, indirizzoCliente, residenzaCliente, emailCliente, telefonoCliente FROM clienti WHERE codCliente=" . $_SESSION['login']);
-			elseif ($_SESSION["tipo_utente"]=="t") $stmt=$conn->query("SELECT nomeTP, cognomeTP, sessoTP, indirizzoTP, residenzaTP, emailTP, telefonoTP FROM terzeparti WHERE codTP=" . $_SESSION['login']);
+			if ($_SESSION['tipo_utente']=='c') $stmt=$conn->query("SELECT nomeCliente, cognomeCliente, sessoCliente, indirizzoCliente, residenzaCliente, emailCliente, telefonoCliente FROM clienti WHERE codCliente=" . $_SESSION['login']);
+			elseif ($_SESSION['tipo_utente']=='t') $stmt=$conn->query("SELECT nomeTP, cognomeTP, sessoTP, indirizzoTP, residenzaTP, emailTP, telefonoTP FROM terzeparti WHERE codTP=" . $_SESSION['login']);
 			$row = $stmt->fetch_assoc();
 		?>
 		
@@ -239,7 +239,7 @@ desired effect
                   <label for="nomec" class="col-sm-2 control-label">Nome</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nomec" name="nome" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["nomeCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["nomeTP"];?>" readonly>
+                    <input type="text" class="form-control" id="nomec" name="nome" value="<?php if ($_SESSION['tipo_utente']=='c') echo $row['nomeCliente']; elseif ($_SESSION['tipo_utente']=='t') echo $row['nomeTP'];?>" readonly>
                   </div>
                 </div>
 				
@@ -247,7 +247,7 @@ desired effect
                   <label for="cognomec" class="col-sm-2 control-label">Cognome</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="cognomec" name="cognome" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["cognomeCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["cognomeTP"];?>" readonly>
+                    <input type="text" class="form-control" id="cognomec" name="cognome" value="<?php if ($_SESSION['tipo_utente']=='c') echo $row['cognomeCliente']; elseif ($_SESSION['tipo_utente']=='t') echo $row['cognomeTP'];?>" readonly>
                   </div>
                 </div>
                 
@@ -256,10 +256,10 @@ desired effect
 				  <div class="col-sm-10">
                   <div class="radio">
 							<div class="col-sm-2">
-							<input type="radio" value="m" name="sesso" id="sessom" <?php if ($_SESSION["tipo_utente"]=="c"){if($row["sessoCliente"]=="m") echo "checked";} elseif ($_SESSION["tipo_utente"]=="t"){if($row["sessoTP"]=="m") echo "checked";}?> disabled>Maschio&emsp;
+							<input type="radio" value="m" name="sesso" id="sessom" <?php if ($_SESSION['tipo_utente']=='c'){if($row['sessoCliente']=="m") echo "checked";} elseif ($_SESSION['tipo_utente']=='t'){if($row['sessoTP']=="m") echo "checked";}?> disabled>Maschio&emsp;
 							</div>
 							<div class="col-sm-2">
-							<input type="radio" value="f" name="sesso" id="sessof" <?php if ($_SESSION["tipo_utente"]=="c"){if($row["sessoCliente"]=="f") echo "checked";} elseif ($_SESSION["tipo_utente"]=="t"){if($row["sessoTP"]=="f") echo "checked";}?> disabled>Femmina
+							<input type="radio" value="f" name="sesso" id="sessof" <?php if ($_SESSION['tipo_utente']=='c'){if($row['sessoCliente']=="f") echo "checked";} elseif ($_SESSION['tipo_utente']=='t'){if($row['sessoTP']=="f") echo "checked";}?> disabled>Femmina
 							</div>
 				  </div>
 				  </div>
@@ -272,7 +272,7 @@ desired effect
 					  <div class="input-group-addon">
 						<i class="fa fa-home"></i>
 					  </div>
-                    <input type="text" class="form-control" id="indirizzoc" name="indirizzo" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["indirizzoCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["indirizzoTP"];?>" readonly>
+                    <input type="text" class="form-control" id="indirizzoc" name="indirizzo" value="<?php if ($_SESSION['tipo_utente']=='c') echo $row['indirizzoCliente']; elseif ($_SESSION['tipo_utente']=='t') echo $row['indirizzoTP'];?>" readonly>
 					</div>
 				  </div>
                 </div>
@@ -284,7 +284,7 @@ desired effect
 					  <div class="input-group-addon">
 						<i class="fa fa-home"></i>
 					  </div>  
-					  <input type="text" class="form-control" id="residenzac" name="residenza" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["residenzaCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["residenzaTP"];?>" readonly>
+					  <input type="text" class="form-control" id="residenzac" name="residenza" value="<?php if ($_SESSION['tipo_utente']=='c') echo $row['residenzaCliente']; elseif ($_SESSION['tipo_utente']=='t') echo $row['residenzaTP'];?>" readonly>
 					</div>
 				  </div>
                 </div>
@@ -296,7 +296,7 @@ desired effect
 					  <div class="input-group-addon">
 						<i class="fa fa-phone"></i>
 					  </div>
-					  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="" name="telefono" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["telefonoCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["telefonoTP"];?>" readonly>
+					  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="" name="telefono" value="<?php if ($_SESSION['tipo_utente']=='c') echo $row['telefonoCliente']; elseif ($_SESSION['tipo_utente']=='t') echo $row['telefonoTP'];?>" readonly>
 					</div>
 					</div>
 				</div>
@@ -308,7 +308,7 @@ desired effect
 					  <div class="input-group-addon">
 					  <i class="fa fa-envelope"></i>
 					  </div>
-					  <input type="email" class="form-control" id="emailc" name="email" value="<?php if ($_SESSION["tipo_utente"]=="c") echo $row["emailCliente"]; elseif ($_SESSION["tipo_utente"]=="t") echo $row["emailTP"];?>" readonly>                  
+					  <input type="email" class="form-control" id="emailc" name="email" value="<?php if ($_SESSION['tipo_utente']=='c') echo $row['emailCliente']; elseif ($_SESSION['tipo_utente']=='t') echo $row['emailTP'];?>" readonly>                  
 					</div>
                   </div>
 				</div>
@@ -349,7 +349,7 @@ desired effect
 		
 		
 		<?php
-			if ($_SESSION["tipo_utente"]=="c"){ 
+			if ($_SESSION['tipo_utente']=='c'){ 
 				$res = $conn->query("SELECT accessoCliente FROM clienti WHERE codCliente=" . $_SESSION['login']);
 				$row = $res->fetch_assoc();
 				$_SESSION['accesso']=$row['accessoCliente'];
@@ -358,7 +358,7 @@ desired effect
 				$row = $res->fetch_assoc();				
 				$_SESSION['accesso']=$row['accessoTP'];
 			} 
-			echo $message; if(isset($_POST["modificacliente"])) echo "<element id=\"seconds\">5</element>
+			echo $message; if(isset($_POST['modificacliente'])) echo "<element id=\"seconds\">5</element>
 			<div id=\"foo\" style=\"display: none;\">
 			</div>
 			</div> <META HTTP-EQUIV=REFRESH CONTENT=\"5; URL=utente.php\"> ";?>

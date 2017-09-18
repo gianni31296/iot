@@ -131,8 +131,8 @@
 </body>
 </html>
 <?php 
-	unset($_SESSION["login"]);
-	unset($_SESSION["login_nome"]);
-	unset($_SESSION["login_cognome"]);
-	unset($_SESSION["tipo_utente"]);
+	unset($_SESSION['login']);
+	unset($_SESSION['login_nome']);
+	unset($_SESSION['login_cognome']);
+	unset($_SESSION['tipo_utente']);
 ?>
